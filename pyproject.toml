@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "repl_python3_beta_PackedBerry"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+discord = "^1.7.3"
+Flask = "^2.0.1"
+better-profanity = "^0.7.0"
+PyNaCl = "^1.4.0"
+ffmpeg = "^1.4"
+youtube_dl = "^2021.6.6"
+googlesearch-python = "^1.0.1"
+google = "^3.0.0"
+Google-Search-API = "^1.1.14"
+py-googletrans = "^1.2"
+translate = "^3.6.1"
+googletrans = "^3.0.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

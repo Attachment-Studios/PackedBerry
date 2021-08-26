@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>PackedBerry!</title>
+
+	<link rel="fav icon" href="https://github.com/Attachment-Studios/PackedBerry/blob/_web/PackedBerry.png?raw=true">
+	
+	<meta name="description" content="PackedBerry is a simple Discord bot.">
+	<meta property="og:url" content="https://attachment-studios.github.io">
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="PackedBerry">
+	<meta property="og:description" content="PackedBerry is a simple Discord bot.">
+	<meta property="og:image" content="https://github.com/Attachment-Studios/PackedBerry/blob/_web/Social.png?raw=true">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta property="twitter:domain" content="attachment-studios.github.io">
+	<meta property="twitter:url" content="https://attachment-studios.github.io">
+	<meta name="twitter:title" content="PackedBerry">
+	<meta name="twitter:description" content="PackedBerry is a simple Discord bot.">
+	<meta name="twitter:image" content="https://github.com/Attachment-Studios/PackedBerry/blob/_web/Social.png?raw=true">
+
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+		* {
+			background: #ceb78c;
+			color: #000000;
+			user-select: none;
+			font-family: 'Jua', sans-serif;
+			margin: 0;
+			padding: 10px;
+		}
+
+		h1 {
+			font-size: 128px;
+			margin: 0;
+			padding: 0;
+			margin-bottom: -10px;
+		}
+
+		p {
+			margin: 0;
+			padding: 0;
+			font-size: 24px;
+		}
+
+		h2 {
+			font-size: 64px;
+			margin: 0;
+			padding: 0;
+		}
+		
+		h3 {
+			font-size: 16px;
+			margin: 0;
+			padding: 0;
+			color: #ab945a;
+			cursor: pointer;
+			transition: 0.15s;
+		}
+
+		h3:hover {
+			color: #000000;
+			transition: 0.15s;
+		}
+
+		::-webkit-scrollbar {
+			width: 5px;
+			height: 5px;
+			background: #ceb78c;
+		}
+
+		::-webkit-scrollbar-thumb {
+			background: #ab945a;
+			border-radius: 10px;
+		}
+
+		::-webkit-scrollbar-track {
+			background: #ceb78c;
+			border-radius: 10px;
+		}
+
+		div {
+			margin-top: 20%;
+		}
+
+		button {
+			font-size: 24px;
+			outline: none;
+			cursor: pointer;
+			padding: 10px;
+			border: 3px solid #9b8459;
+			border-radius: 10px;
+			transition: 0.25s;
+			background: #ceb78c;
+			color: #9b8459;
+		}
+
+		button:hover {
+			transition: 0.25s;
+			background: #9b8459;
+			color: #000000;
+		}
+
+		tab {
+			margin: 20px;
+		}
+	</style>
+
+	<script>
+		window.addEventListener('contextmenu', e => {
+			e.preventDefault();
+			location.reload();
+		});
+
+		window.setInterval(() => {
+			location.reload();
+		}, 10000);
+	</script>
+</head>
+
+<body>
+	<div class="title" style="margin-top: 0;">
+		<center>
+			<img src="https://github.com/Attachment-Studios/PackedBerry/blob/_web/PackedBerry.png?raw=true" width="25%" height="auto" style="margin-bottom: -10%" />
+			<h1>PackedBerry!</h1>
+			<p>A simple discord bot.</p>
+			<button onclick="window.open('https://discord.com/api/oauth2/authorize?client_id=860109351707475988&permissions=8&scope=bot');">Add To Server</button>
+			<button onclick="window.open('https://PackedBerry.attaditya.repl.co');">Main Site 1</button>
+			<button onclick="window.open('https://attachment-studios.github.io/PackedBerry');">Main Site 2</button>
+			<button onclick="window.open('https://replit.com/@AttAditya/PackedBerry?v=1');">Source Code</button>
+		</center>
+	</div>
+	<div class="slogan">
+		<h1>Mod</h1>
+		<h1>Fun</h1>
+		<h1>Stuff</h1>
+	</div>
+	<div class="about">
+		<h2>What is PackedBerry!?</h2>
+		<p>
+			PackedBerry is a simple discord bot for moderation, fun and more stuff.
+			It has many features which are useful and are fun to use.
+		</p>
+		<button onclick="location.replace('#servers');">Active Servers</button>
+		<button onclick="location.replace('#help');">Commands</button>
+	</div>
+	<div class="servers" id="servers" style="margin-bottom: 30px;">
+		<center>
+			<h2>Active Servers</h2>

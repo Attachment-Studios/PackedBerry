@@ -1,0 +1,95 @@
+PackedBerry Command Details
+
+Use prefixes before main command.
+Commands are space sensitive.
+Type "pb call" to get all prefixes.
+
+Items covered by '[' and ']' are optional.
+Items covered by '"' and '"' are values and can not be changed.
+Items covered by '<' and '>' are dependent on you to set.
+Items covered by '(' and ')' are compulsory.
+
+--------------------------------
+-- System Information Commands --
+help:
+	syntax: <prefix> help
+	usage: Get all commands.
+ver:
+	syntax: <prefix> ver
+	usage: Get version of PackedBerry Service being used.
+whatsnew:
+	syntax: <prefix> whatsnew
+	usage: Gets information about whats new in version of PackedBerry Bot.
+
+-- Bot Settings Commands --
+call:
+	syntax: <prefix> call [name]
+	usage: Gets all available prefixes to use if [name] not provided. If [name] given then adds [name] to the list of available prefixes.
+nocall:
+	syntax: <prefix> nocall (name)
+	usage: Removes (name) from the list of all available prefixes unless (name) is a system default prefix.
+
+-- Moderation Commands --
+delete:
+	syntax: <prefix> delete (amount)
+	usage: Deletes (amount) number of messages.
+burn:
+	syntax: <prefix> burn
+	usage: Used to empty the channel.
+prevent:
+	syntax: <prefix> prevent
+	usage: Locks the channel and prevents to write anything in it.
+unlock:
+	syntax: <prefix> unlock
+	usage: Unlocks the channel if locked.
+mute:
+	syntax: <prefix> mute (user)
+	usage: Mutes the user and doesn't let him talk.
+unmute:
+	syntax: <prefix> unmute (user)
+	usage: Unmutes the user and so he can talk.
+
+-- Vibes/Music Commands --
+vibe:
+	syntax: <prefix> vibe (url) (voice channel)
+	usage: Plays music from YouTube with url as (url) in the (voice channel).
+novibe:
+	syntax: <prefix> novibe
+	usage: Stops playing music and disconnets from voice channel.
+pausevibe:
+	syntax: <prefix> pausevibe
+	usage: Pauses the music till it is resumed again.
+resumevibe:
+	syntax: <prefix> resumevibe
+	usage: Resumes music if paused.
+donevibe:
+	syntax: <prefix> donevibe
+	usage: Ends the music.
+
+-- Server Commands --
+beta:
+	syntax: <prefix> beta [sub-command]
+	usage: Gives message about current beta features.
+	[sub-command]: {
+		"enable": Enables beta features for the server.
+		"disable": Disables beta features for the server.
+	}
+invite:
+	syntax: <prefix> invite [server]
+	usage: Sends invite of current server if [server] not given, else gives invite for [server].
+
+-- Fun Commands --
+ping:
+	syntax: <prefix> ping
+	usage: Pings the user who called the command.
+spam:
+	syntax: <prefix> spam (amount) (text)
+	usage: Spams (text) (amount) number of times. Maximum value for (amount) is 25 and minimum is 1.
+sitename:
+	syntax: <prefix> sitename (url)
+	usage: Gets the title of site from (url)
+img:
+	syntax: <prefix> img [seed]
+	usage: Sends a random image if no seed else with seed gives specific output.
+
+--------------------------------

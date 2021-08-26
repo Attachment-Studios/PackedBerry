@@ -1,0 +1,34 @@
+PackedBerry Service - Help
+
+Type `pb help detailed` for complete guide.
+
+PackedBerry Command List
+```
+-- System Information Commands --
+help, ver, whatsnew
+
+-- Bot Settings Commands --
+call, nocall
+
+-- Moderation Commands --
+delete, burn
+prevent, unlock
+mute, unmute
+
+-- Vibes/Music Commands --
+vibe, novibe
+pausevibe, resumevibe, donevibe
+
+-- Server Commands --
+beta
+invite
+
+-- Fun Commands --
+ping
+spam
+sitename
+img
+dm
+randnum, choose
+```
+
