@@ -1,8 +1,15 @@
 # PackedBerry Translation System
 
-import requests
+from translate import Translator as tr
+from langdetect import detect
 
 def translate(text: str, dest: str):
+	fl = detect(text)
+	translator = tr(from_lang=str(fl), to_lang=str(dest))
+	translation = translator.translate(text)
+	return str(translation)
+
+def backup_translate(text: str, dest: str):
 	gt_ch_format = {
 		"%": "%25",
 		"\n": "%0A",
@@ -26,4 +33,3 @@ def translate(text: str, dest: str):
 	
 	translation = str(url)
 	return translation
-

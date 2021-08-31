@@ -79,6 +79,9 @@ invite:
 	usage: Sends invite of current server if [server] not given, else gives invite for [server].
 
 -- Fun Commands --
+hi:
+	syntax: <prefix> hi
+	usage: Sends Hello.
 ping:
 	syntax: <prefix> ping
 	usage: Pings the user who called the command.
@@ -100,5 +103,29 @@ randnum:
 choose:
 	syntax: <prefix> choose (option1) [option2] [option3] [option4] [option...]
 	usage: Chooses one option from given options.
+translate:
+	syntax: <prefix> translate (destination-language) (text)
+	usage: Translates (text) to (destination-language).
+translate_link:
+	syntax: <prefix> translate_link (destination-language) (text)
+	usage: Translates (text) to (destination-language) and sends link for accessing translation.
+table_tennis:
+	syntax: <prefix> table_tennis
+	usage: Starts a solo table tennis match.
+ping:
+	syntax: ping
+	usage: Replies "pong".
+rally:
+	syntax: <prefix> rally (rally-name)
+	usage: Creates(if not) and votes to (rally-name).
+unrally:
+	syntax: <prefix> unrally (rally-name)
+	usage: Removes user votes from (rally-name).
+captcha:
+	syntax: <prefix> captcha
+	usage: Sends a verification code in dm.
+verify:
+	syntax: <prefix> verify (code)
+	usage: Verifies user if (code) matches.
 
 --------------------------------

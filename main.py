@@ -11,6 +11,8 @@ import nacl
 import youtube_dl
 import requests
 import fun
+import translator
+from pytube import YouTube
 
 def get_title(url: str):
 	html = requests.get(url).text
@@ -297,16 +299,20 @@ async def on_message(msg):
 		
 		for i in outstuff[8]:
 			mutelist[0].append(str(i))
-			mutelist[1].append(msg.guild.id)
+			mutelist[1].append(str(msg.guild.id))
 		
 		for user in outstuff[9]:
-			for u in mutelist[0]:
-				if str(user) == str(u):
-					if str(msg.guild.id) == str(mutelist[1][mutelist[0].index(u)]):
-						mutelist[0][mutelist[0].index(u)] = ''
-						mutelist[1][mutelist[0].index(u)] = ''
-						await msg.channel.send(outstuff[0])
-						return
+			ids = []
+			for elem in range(len(mutelist[0])):
+				if str(user) == str(mutelist[0][elem]):
+					ids.append(elem)
+			for i in ids:
+				if str(mutelist[1][i]) == str(msg.guild.id):
+					mutelist[0].remove(mutelist[0][i])
+					mutelist[1].remove(mutelist[1][i])
+			save()
+			await msg.channel.send(outstuff[1])
+			return
 		
 		# message output system
 		try:
@@ -347,10 +353,10 @@ async def on_message(msg):
 				'postprocessors': [{
 					'key': 'FFmpegExtractAudio',
 					'preferredcodec': 'mp3',
-					'preferredquality': '192',
+					'preferredquality': '256',
 				}],
 			}
-						
+
 			# download
 			with youtube_dl.YoutubeDL(ydl_opts) as ydl:
 				# get url

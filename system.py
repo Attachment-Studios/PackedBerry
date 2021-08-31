@@ -164,13 +164,13 @@ def out(message, refname, client):
 						out = 'Please provide a name!'
 				elif msg[1] == "mute":
 					try:
-						mutelist.append(str(msg[2]).replace('<', '').replace('>', '').replace('@!', ''))
+						mutelist.append(str(msg[2]).replace('<', '').replace('>', '').replace('!', '').replace('@', ''))
 						out = f'{msg[2]} was muted.'
 					except:
 						out = 'Please provide user to mute.'
 				elif msg[1] == "unmute":
 					try:
-						unmutelist.append(str(msg[2]).replace('<', '').replace('>', '').replace('@!', ''))
+						unmutelist.append(str(msg[2]).replace('<', '').replace('>', '').replace('!', '').replace('@', ''))
 						out = f'{msg[2]} was unmuted.'
 					except:
 						out = 'Please provide user to unmute.'
@@ -198,7 +198,19 @@ def out(message, refname, client):
 				delete = False"""
 			pass
 		if out == "":
-			return [False, out, delete, connectVoice, voiceChannel, song_url, repeat, calls, mutelist, unmutelist]
+			return_value = [
+				False,
+				out,
+				delete,
+				connectVoice,
+				voiceChannel,
+				song_url,
+				repeat,
+				calls,
+				mutelist,
+				unmutelist
+			]
+			return return_value
 		else:
 			return [True, out, delete, connectVoice, voiceChannel, song_url, repeat, calls, mutelist, unmutelist]
 	except:

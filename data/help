@@ -24,11 +24,17 @@ beta
 invite
 
 -- Fun Commands --
+hi
 ping
 spam
 sitename
 img
 dm
 randnum, choose
+translate(limited), translate_link
+table_tennis
+pong
+rally, unrally
+captcha, verify
 ```
 
