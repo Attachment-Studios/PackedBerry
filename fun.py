@@ -17,7 +17,7 @@ def work(message, calls, server_links):
 
 	out = ''
 	dm = ''
-	dm_user = ''
+	polling = False
 
 	no_reply = True
 
@@ -28,20 +28,20 @@ def work(message, calls, server_links):
 	try:
 		if msg[0] in calls:
 			try:
-				if msg[1] == 'beta':
+				if msg[1] in ['in-dev', 'indev']:
 					try:
 						if msg[2] == 'disable':
 							if beta.check(str(message.guild)):
 								beta.leave(str(message.guild))
-								out = 'Server removed from beta.'
+								out = 'Server removed from in-dev.'
 							else:
-								out = 'Server is not registered in beta.'
+								out = 'Server is not registered in in-dev.'
 						elif msg[2] == 'enable':
 							if beta.check(str(message.guild)):
-								out = 'Server already registered for beta.'
+								out = 'Server already registered for in-dev.'
 							else:
 								beta.enter(str(message.guild))
-								out = 'Server is now added to beta program.'
+								out = 'Server is now added to in-dev commands.'
 					except:
 						if beta.check(str(message.guild)):
 							next_file = open('data/next')
@@ -49,7 +49,7 @@ def work(message, calls, server_links):
 							next_file.close()
 							out = str(next_data)
 						else:
-							out = 'Server not registered for beta. Type `pb beta enable` to register.'
+							out = 'Server not registered for in-dev commands. Type `pb in-dev enable` to register.\n\n```It is not recommended to use in-dev commands. They have incomplete code and may not function as expected. These may also have a chance of crashing bot and doing some problematic stuff to server.```'
 				elif msg[1] == 'invite':
 					try:
 						if msg[2] in msg:
@@ -65,7 +65,7 @@ def work(message, calls, server_links):
 					except:
 						invite = str(server_links[1][server_links[0].index(str(message.guild))])
 						out = str(invite)
-				elif msg[1] == 'randnum':
+				elif msg[1] == 'random-number':
 					try:
 						try:
 							out = str(random.randint(int(msg[2]), int(msg[3])))
@@ -168,10 +168,58 @@ def work(message, calls, server_links):
 								rally_file_write.write(str(rally_file_read_data.replace(str(message.author.id), '')))
 								rally_file_write.close()
 								out = 'Removed vote for rally!'
+								votes = 0
+								vote_count_list = str(rally_file_read_data.replace(str(message.author.id), '')).split('\n')
+								for v in vote_count_list:
+									if v == '':
+										pass
+									else:
+										votes = votes + 1
+								if votes == 0:
+									os.remove('rally/' + str(rally_name))
 							else:
 								out = 'Never voted in the rally!'
 						else:
 							out = 'Rally doesn\'t exist.'
+				elif msg[1] == 'rally-count':
+					if len(msg) < 3:
+						out = 'Need some rally name to count votes.'
+					else:
+						rally_name = message.content.lower().replace(msg[0] + ' ' + msg[1] + ' ', '')
+						if os.path.isfile('rally/' + rally_name):
+							rally_file_read = open('rally/' + str(rally_name), 'r')
+							rally_file_read_data = rally_file_read.read()
+							rally_file_read.close()
+							votes_list = rally_file_read_data.split('\n')
+							votes = 0
+							for v in votes_list:
+								if v == '':
+									pass
+								else:
+									votes = votes + 1
+							out = str(votes) + ' votes.'
+						else:
+							out = '0 Votes(Maybe Rally Doesn\'t exists or you might have mispelled).'
+				elif msg[1] == 'license':
+					out = "```md\n"
+					license_file = open('legal/Licenses/ASBL.md', 'r')
+					license = license_file.read()
+					license_file.close()
+					out = out + str(license) + '\n```'
+				elif msg[1] == 'credits':
+					out = """
+Credits for making `PackedBerry` a thing!
+```yml
+Attachment Aditya: Creator
+Attachment Studios: Production Partners
+Python 3.8: Project Base Services
+Discord: API And Usage Services
+ReplIt: Editing And Hosting Services
+UptimeRobot: Monitoring And Hosting System
+GitHub: Storage Services
+```
+Licensed under `ASBL 3.0`
+"""
 				elif ( msg[1] == 'captcha' ):
 					captcha_text = ''
 					chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-=[]\\;\',./~!@#$%^&()+{}|:"<>?'
@@ -235,7 +283,7 @@ Values for hit parameters:
 """
 				elif ( msg[1].replace('!', '') in ['hi', 'hello', 'yo'] ):
 					out = 'Hello!'
-				elif onbeta and msg[1] == 'sus':
+				elif msg[1] == 'sus':
 					out = '<@' + str(message.author.id) + '> is sus.'
 				elif onbeta and msg[1] == 'amogus':
 					dm = ['Crewmate', 'Impostor'][random.randint(0, 1)]
@@ -244,7 +292,7 @@ Values for hit parameters:
 					au_server_file.close()
 					dm = 'Your color is Lime. Your role is ' + str(dm) + '.'
 					out = 'Your role is in DM. Type `amogus report` in the server to start.'
-				elif onbeta and msg[1] in ['hotcold', 'hc']:
+				elif msg[1] in ['hotcold', 'hc']:
 					guess_num = random.randint(1, 20)
 					try:
 						guess_num = random.randint(1, int(msg[2]))
@@ -254,7 +302,7 @@ Values for hit parameters:
 					hc_server_file.write(str(guess_num))
 					hc_server_file.close()
 					out = 'Type `hotcold number` to give the number.'
-				elif onbeta and msg[1] in ['nomenclate', 'name']:
+				elif msg[1] in ['nomenclate', 'name']:
 					vowels = 'aeiou'
 					consonants = 'bcdfgjklmnpstv'
 					char_turn_id = random.randint(0, 1)
@@ -281,6 +329,89 @@ Values for hit parameters:
 							output_name += str(char)
 							char_turn_id = ( char_turn_id - 1 ) * -1
 					out = str(output_name)
+				elif msg[1] in ['random-rearrangement', 'nag-a-ram']:
+					try:
+						if whitespace(msg[2]):
+							out = 'Needs something to randomly rearrange.'
+						else:
+							real_text = _msg[2]
+							id_string = ''
+
+							for _ in range(len(real_text)):
+								random_number = random.randint(0, len(real_text) - 1)
+								while str(random_number) in id_string:
+									random_number = random.randint(0, len(real_text) - 1)
+								id_string += ' ' + str(random_number)
+							
+							corrected_list = []
+
+							for i in ((id_string.split(' '))):
+								if i == '' or i == None:
+									pass
+								else:
+									corrected_list.append(int(i))
+							
+							new_string = ''
+							for n in corrected_list:
+								new_string += str(real_text[n])
+							
+							out = str(new_string)
+					except:
+						out = 'Needs something to randomly rearrange.'
+				elif msg[1] == 'servers':
+					server_list = (sorted(server_links[0]))
+					top_list = server_list[0:15]
+					server_string = '```'
+					for s in top_list:
+						server_string += '\n' + str(s)
+					server_string += '\n```'
+					out = str(server_string)
+				elif msg[1] == 'rally-list':
+					rallies = os.listdir('rally')
+					top_list = rallies[0:15]
+					top_list = sorted(top_list)
+					name_string = '```'
+					for s in top_list:
+						name_string += '\n' + str(s)
+					name_string += '\n```'
+					out = str(name_string)
+				elif msg[1] == 'say':
+					try:
+						if whitespace(msg[2]):
+							out = 'Need some text.'
+						else:
+							_text = ''
+							for t in range(len(_msg)):
+								if t == 0 or t == 1:
+									pass
+								else:
+									if t == len(_msg) - 1:
+										_text += str(_msg[t])
+									else:
+										_text += str(_msg[t]) + ' '
+							out = _text
+							delete_me = True
+					except:
+						out = 'Need some text to say.'
+				elif msg[1] == 'poll':
+					try:
+						if whitespace(msg[2]):
+							out = 'Need some poll text.'
+						else:
+							poll_text = ''
+							for t in range(len(_msg)):
+								if t == 0 or t == 1:
+									pass
+								else:
+									if t == len(_msg) - 1:
+										poll_text += str(_msg[t])
+									else:
+										poll_text += str(_msg[t]) + ' '
+							out = poll_text
+							polling = True
+							delete_me = True
+					except:
+						out = 'Need some poll text.'
 				else:
 					no_reply = True
 			except:
@@ -367,7 +498,8 @@ Values for hit parameters:
 		if real_message in ['shut up', 'just shut up', 'stay quiet', 'I request you to not leak secrets.']:
 			out = 'Not in this life! :stuck_out_tongue_winking_eye:'
 	if 'red' in message.content.lower():
-		out = 'sus.'
+		if out == '':
+			out = 'sus.'
 	
 	try:
 		if onbeta and msg[0] == 'amogus':
@@ -408,10 +540,13 @@ Dead Body Reported.
 	return_test = not( out.replace(' ', '') == '' )
 	do_dm_user = not( dm.replace(' ', '') == '' )
 
-	return [
+	return_stuff = [
 		return_test,
 		out,
 		do_dm_user,
 		dm,
-		delete_me
+		delete_me,
+		polling
 	]
+	
+	return return_stuff

@@ -59,7 +59,7 @@ def out(message, refname, client):
 		unmutelist = []
 		if msg[0] in refname[1]:
 			try:
-				if msg[1] == "ver":
+				if msg[1] in ["ver", "version"]:
 					out = version
 				elif msg[1] == "whatsnew":
 					out = whatsnew
@@ -164,14 +164,24 @@ def out(message, refname, client):
 						out = 'Please provide a name!'
 				elif msg[1] == "mute":
 					try:
-						mutelist.append(str(msg[2]).replace('<', '').replace('>', '').replace('!', '').replace('@', ''))
-						out = f'{msg[2]} was muted.'
+						if message.author.guild_permissions.administrator:
+							id = str(msg[2]).replace('<', '').replace('>', '').replace('!', '').replace('@', '')
+							if id == str(message.author.id):
+								out = 'Are you serious or just want to punish yourself?'
+							else:
+								mutelist.append(str(msg[2]).replace('<', '').replace('>', '').replace('!', '').replace('@', ''))
+								out = f'{msg[2]} was muted.'
+						else:
+							out = 'YOOOOOOOOOOOOOOOOLLLLLLLLlllll! You Not The Admin!'
 					except:
 						out = 'Please provide user to mute.'
 				elif msg[1] == "unmute":
 					try:
-						unmutelist.append(str(msg[2]).replace('<', '').replace('>', '').replace('!', '').replace('@', ''))
-						out = f'{msg[2]} was unmuted.'
+						if message.author.guild_permissions.administrator:
+							unmutelist.append(str(msg[2]).replace('<', '').replace('>', '').replace('!', '').replace('@', ''))
+							out = f'{msg[2]} was unmuted.'
+						else:
+							out = 'YOOOOOOOOOOOOOOOOLLLLLLLLlllll! You Not The Admin!'
 					except:
 						out = 'Please provide user to unmute.'
 				elif msg[1] == "img":

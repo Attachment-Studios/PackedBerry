@@ -11,8 +11,6 @@ import nacl
 import youtube_dl
 import requests
 import fun
-import translator
-from pytube import YouTube
 
 def get_title(url: str):
 	html = requests.get(url).text
@@ -206,21 +204,30 @@ async def on_message(msg):
 
 	try:
 		if msg.content.lower().split(" ")[1] == "delete":
-			try:
-				await msg.channel.purge(limit=int(msg.content.lower().split(" ")[2]))
-			except:
+			if msg.author.guild_permissions.administrator:
 				try:
-					if msg.content.lower().split(" ")[2] == "channel":
-						await msg.channel.purge(limit=10000)
+					await msg.channel.purge(limit=int(msg.content.lower().split(" ")[2]))
 				except:
-					await msg.channel.purge(limit=1)
+					try:
+						if msg.content.lower().split(" ")[2] == "channel":
+							await msg.channel.purge(limit=10000)
+					except:
+						await msg.channel.purge(limit=1)
+			else:
+				await msg.channel.send('Admin permission needed.')
 		if msg.content.lower().split(" ")[1] == "burn":
-			await msg.channel.purge(limit=10000)
+			if msg.author.guild_permissions.administrator:
+				await msg.channel.purge(limit=10000)
+			else:
+				await msg.channel.send('Admin post required.')
 		if msg.content.lower().split(" ")[1] == "prevent":
-			await msg.delete()
-			await msg.channel.send('--X-- Locked --X--')
-			prevent[0].append(str(msg.channel.id))
-			prevent[1].append(str(msg.author.id))
+			if msg.author.guild_permissions.administrator:
+				await msg.delete()
+				await msg.channel.send('--X-- Locked --X--')
+				prevent[0].append(str(msg.channel.id))
+				prevent[1].append(str(msg.author.id))
+			else:
+				await msg.channel.send('Admin Post Required.')
 	except:
 		pass
 	
@@ -279,11 +286,14 @@ async def on_message(msg):
 	try:
 		fun_system = fun.work(msg, data[0][1], server_links)
 		if fun_system[0]:
-			await msg.channel.send(fun_system[1])
-			if fun_system[2] == True:
-				await msg.author.send(fun_system[3])
+			m = await msg.channel.send(fun_system[1])
+			if fun_system[5] == True:
+				await m.add_reaction('✅')
+				await m.add_reaction('❎')
 			if fun_system[4] == True:
 				await msg.delete()
+			if fun_system[2] == True:
+				await msg.author.send(fun_system[3])
 	except:
 		pass
 
