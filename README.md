@@ -86,4 +86,7 @@ system
 fun
 beta
 translator
+sub1
+twm
+pb_cmd
 ```

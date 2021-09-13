@@ -3,6 +3,7 @@ PackedBerry Command Details
 Use prefixes before main command.
 Commands are space sensitive.
 Type "pb call" to get all prefixes.
+Type "pb in-dev" to get all hidden in development commands(not recommended).
 
 Items covered by '[' and ']' are optional.
 Items covered by '"' and '"' are values and can not be changed.
@@ -14,12 +15,18 @@ Items covered by '(' and ')' are compulsory.
 help:
 	syntax: <prefix> help
 	usage: Get all commands.
-ver:
-	syntax: <prefix> ver
+version:
+	syntax: <prefix> version
 	usage: Get version of PackedBerry Service being used.
 whatsnew:
 	syntax: <prefix> whatsnew
 	usage: Gets information about whats new in version of PackedBerry Bot.
+credits:
+	syntax: <prefix> credits
+	usage: Returns credits for PackedBerry.
+license:
+	syntax: <prefix> credits
+	usage: Returns main license for PackedBerry.
 
 -- Bot Settings Commands --
 call:
@@ -66,19 +73,24 @@ donevibe:
 	syntax: <prefix> donevibe
 	usage: Ends the music.
 
--- Server Commands --
-beta:
-	syntax: <prefix> beta [sub-command]
-	usage: Gives message about current beta features.
-	[sub-command]: {
-		"enable": Enables beta features for the server.
-		"disable": Disables beta features for the server.
-	}
+-- Multiple Servers Commands --
+in-dev:
+	syntax: <prefix> in-dev
+	usage: Gives message about current in-dev features if enabled.
 invite:
 	syntax: <prefix> invite [server]
 	usage: Sends invite of current server if [server] not given, else gives invite for [server].
+server:
+	syntax: <prefix> server [server-id]
+	usage: Gets information about server with id as [server-id] where [server-id] is set default for current server.
+servers:
+	syntax: <prefix> servers
+	usage: Sends a list of servers which contain PackedBerry bot.
 
 -- Fun Commands --
+hi:
+	syntax: <prefix> hi
+	usage: Sends Hello.
 ping:
 	syntax: <prefix> ping
 	usage: Pings the user who called the command.
@@ -91,5 +103,71 @@ sitename:
 img:
 	syntax: <prefix> img [seed]
 	usage: Sends a random image if no seed else with seed gives specific output.
+dm-me:
+	syntax: <prefix> dm-me (message)
+	usage: DMs [Message] to message author privately.
+dm-user:
+	syntax: <prefix> dm-user (user) (message)
+	usage: DMs [Message] to (user) privately.
+say:
+	syntax: <prefix> say (message)
+	usage: Says (message) given by user in the server.
+random-number:
+	syntax: <prefix> random-number [lower_limit] [upper_limit]
+	usage: Returns a randum number. If limits given, picks a number between [lower_limit] and [upper_limit]. If only one limit specified, assumes limit given is [upper_limit] and [lower_limit] be 0.
+choose:
+	syntax: <prefix> choose (option1) [option2] [option3] [option4] [option...]
+	usage: Chooses one option from given options.
+random-rearrangement:
+	syntax: <prefix> random-rearrangement (text)
+	usage: Randomly rearranges the letters of (text).
+translate:
+	syntax: <prefix> translate (destination-language) (text)
+	usage: Translates (text) to (destination-language).
+translate_link:
+	syntax: <prefix> translate_link (destination-language) (text)
+	usage: Translates (text) to (destination-language) and sends link for accessing translation.
+table_tennis:
+	syntax: <prefix> table_tennis
+	usage: Starts a solo table tennis match.
+ping:
+	syntax: ping
+	usage: Replies "pong".
+rally:
+	syntax: <prefix> rally (rally-name)
+	usage: Creates(if not) and votes to (rally-name).
+unrally:
+	syntax: <prefix> unrally (rally-name)
+	usage: Removes user votes from (rally-name).
+rally-list:
+	syntax: <prefix> rally-list
+	usage: Returns list of available rallies.
+rally-count:
+	syntax: <prefix> rally-count (rally-name)
+	usage: Counts votes for (rally-name).
+captcha:
+	syntax: <prefix> captcha
+	usage: Sends a verification code in dm.
+verify:
+	syntax: <prefix> verify (code)
+	usage: Verifies user if (code) matches.
+human:
+	syntax: <prefix> human
+	usage: Says if mesage author is verified as human by PackedBerry.
+sus:
+	syntax: <prefix> sus
+	usage: Responds user is sus.
+amogus(postponed):
+	syntax: <prefix> amogus
+	usage: in dev, amogus game.
+hotcold:
+	syntax: <prefix> hotcold [limit]
+	usage: Starts a game of `HotCold`. Player guesses a number. If cold the number is larger and if hot then smaller.
+nomenclate:
+	syntax: <prefix> nomenclate [word-size]
+	usage: Creates a random word that can be okay enough for being pronounced. It [word-size] given, sends word with given [word-size].
+poll:
+	syntax: <prefix> poll (topic)
+	usage: Creates a yes-no poll for (topic).
 
 --------------------------------

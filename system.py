@@ -61,18 +61,28 @@ def out(message, refname, client):
 			try:
 				if msg[1] in ["ver", "version"]:
 					out = version
-				elif msg[1] == "whatsnew":
+				elif msg[1] in ["whatsnew", "wn"]:
 					out = whatsnew
 				elif msg[1] == "help":
-					try:
-						if msg[2] == "detailed":
-							_help = open("data/d_help", "r")
-						else:
-							_help = open("help", "r")
-						out = _help.read()
-						_help.close()
-					except:
-						out = help_data
+					if len(msg) < 3:
+						help_file = open('data/help', 'r')
+						help_data = help_file.read()
+						help_file.close()
+						out = str(help_data)
+					else:
+						help_file = open('data/__help__', 'r')
+						help_data = help_file.read().split("***")
+						help_data.remove("")
+						help_file.close()
+						for _ in help_data:
+							list_ = _.split("\n")
+							list_.remove('')
+							if len(list_) > 0:
+								if list_[0] == msg[2]:
+									out = str(_)
+									break
+						if out == "":
+							out = "```yml\n*unavailable```"
 				elif msg[1] == "ping":
 					out = f"<@{message.author.id}>"
 				elif msg[1] == "sitename":

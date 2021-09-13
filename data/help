@@ -1,12 +1,12 @@
 PackedBerry Service - Help
 
-Type `pb help detailed` for complete guide.
-Type `pb in-dev` for in-dev commands(not recommended).
+Type `<prefix> help <command>` to get help for specific commands.
+Type `<prefix> in-dev` for in-dev commands(not recommended).
 
 PackedBerry Command List
-```
+```diff
 -- System Information Commands --
-help, ver, whatsnew, credits, license
+help, version, whatsnew, credits, license
 
 -- Bot Settings Commands --
 call, nocall
@@ -23,24 +23,30 @@ pausevibe, resumevibe, donevibe
 -- Miltiple Servers Commands --
 in-dev
 invite
-servers
+server, servers
 
--- Fun Commands --
+-- Useless Commands --
 hi
 ping
 spam
-sitename
-img
-dm, say
-random-number, choose, random-rearrangement
-translate(limited), translate_link
-table_tennis
+say
 pong
+
+-- Utility Commands --
+sitename
+random-number, choose, random-rearrangement
+dm-me, dm-user
+translate(limited), translate_link
+captcha, verify, human
+nomenclate
+
+-- Fun Commands --
+img
+table_tennis
 rally, unrally, rally-list, rally-count
-captcha, verify
 sus, amogus(dev, unstable)
 hotcold
-nomenclate
 poll
+coin
 ```
 

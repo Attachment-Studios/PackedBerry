@@ -23,6 +23,19 @@ def work(message, calls, server_links):
 
 	delete_me = False
 
+	human = False
+
+	captcha_file = open('fun/captcha/human_verified', 'r')
+	captcha_data = captcha_file.read()
+	captcha_file.close()
+
+	human_table = captcha_data.split('\n')
+
+	for id in human_table:
+		if str(id) == str(message.author.id):
+			human = True
+			break
+
 	onbeta = beta.check(str(message.guild))
 
 	try:
@@ -50,6 +63,11 @@ def work(message, calls, server_links):
 							out = str(next_data)
 						else:
 							out = 'Server not registered for in-dev commands. Type `pb in-dev enable` to register.\n\n```It is not recommended to use in-dev commands. They have incomplete code and may not function as expected. These may also have a chance of crashing bot and doing some problematic stuff to server.```'
+				elif msg[1] == 'human':
+					if human:
+						out = 'You are verified as human.'
+					else:
+						out = 'You are not verified as human. Type `<prefix> captcha` to start the process.'
 				elif msg[1] == 'invite':
 					try:
 						if msg[2] in msg:
@@ -84,7 +102,7 @@ def work(message, calls, server_links):
 							else:
 								choices.append(i)			
 						out = str(choices[random.randint(0, int(len(choices) - 1))])
-				elif msg[1] == 'dm':
+				elif msg[1] == 'dm-me':
 					dm_text = message.content.replace(_msg[0] + ' ' + _msg[1], '')
 					if len(dm_text.replace(' ', '')) == 0:
 						out = str(':x: Please provide some text to message you.')
@@ -285,7 +303,7 @@ Values for hit parameters:
 					out = 'Hello!'
 				elif msg[1] == 'sus':
 					out = '<@' + str(message.author.id) + '> is sus.'
-				elif onbeta and msg[1] == 'amogus':
+				elif False and onbeta and msg[1] == 'amogus':
 					dm = ['Crewmate', 'Impostor'][random.randint(0, 1)]
 					au_server_file = open('fun/amogus/' + str(message.author.id), 'w')
 					au_server_file.write(str(dm))
@@ -493,6 +511,8 @@ Values for hit parameters:
 	
 	if message.content.lower() == 'ping':
 		out = 'pong'
+	if message.content.lower() == 'pong':
+		out = 'ping'
 	if msg[0] in calls:
 		real_message = message.content.lower().replace(msg[0] + ' ', '')
 		if real_message in ['shut up', 'just shut up', 'stay quiet', 'I request you to not leak secrets.']:
@@ -501,21 +521,23 @@ Values for hit parameters:
 		if out == '':
 			out = 'sus.'
 	
+	"""
 	try:
 		if onbeta and msg[0] == 'amogus':
 			try:
 				if not(whitespace(msg[1])):
 					if os.path.isfile('fun/amogus/' + str(message.author.id)):
 						if msg[1] == 'report':
-							out = """
+							out = ""\"
 Dead Body Reported.
-"""
+""\"
 					else:
 						out = 'No game found.'
 			except:
 				out = '|| a |||| m |||| o |||| g |||| u |||| s ||'
 	except:
 		pass
+	"""
 	
 	try:
 		if msg[0] in ['hotcold', 'hc']:

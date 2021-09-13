@@ -1,29 +1,15 @@
 **What's New This Update:**
 ```md
-Gamma 1
+Gamma 3
 
-Berry 0 - Gamma 01 brings us very near to final release - Berry 1.
-After this gamma phase, their will be one last Delta entry for PackedBerry.
-After delta pre-releases will be there.
+Say bye to Gamma!
 
-- Gamma Systems - New PackedBerry Versions
-- Updated a few commands for sounding legible.
-- Added many new fun commands.
-- Added a few multi servers commands.
-- Added a few system commands.
-- Updated In-Dev systems to be better.
-- PackedBerry is officially licensed as Attachment Studios product.
-- PackedBerry Gamma uses ASBL V3.
-- Moderation commands tweaked.
-- More Rally stuff.
-- Added Poll systems.
-- Bug fixes.
-- Few more miscellaneous changes.
-- Now only admins use most of the mod commands.
-- Official GitHub READMEs are now available.
-- New version layout.
-- New in-dev layout.
-- Moderation and important updates will be directly applied outside dev options.
-- Official Logs now available.
+- Fixed many bugs.
+- Updated help systems, now complete.
+- Updated message systems, now complete.
+- Added a few new commands.
+- Completed basic main bot requirements.
+- Gamma Update For Berry 0 Completed.
+- Working on Delta, Final Pre Update.
 ```
 

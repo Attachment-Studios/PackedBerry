@@ -11,12 +11,32 @@ import nacl
 import youtube_dl
 import requests
 import fun
+import sub1
+import twm
+import pb_cmd
 
 def get_title(url: str):
 	html = requests.get(url).text
 	title_separator = html.split("<title>")
 	title = title_separator[1].split("</title>")[0]
 	return title
+
+async def reply(ctx, message):
+	embed = discord.Embed(
+		color = 0xcbb48b,
+		title = "PackedBerry!",
+		description = "PackedBerry is more than a simple Discord bot."
+	)
+	embed.set_thumbnail(url="https://github.com/Attachment-Studios/PackedBerry/blob/master/PackedBerry.png?raw=true")
+	embed.add_field(
+		name = str(pb_cmd.cmd_key(ctx.content.lower())),
+		value = message
+	)
+	if not(pb_cmd.emb_check(ctx.content.lower())):
+		m = await ctx.channel.send(message)
+	else:
+		m = await ctx.channel.send(embed = embed)
+	return m, embed
 
 print("Modules Imported")
 
@@ -128,10 +148,23 @@ print("Setup Completed")
 
 @client.event
 async def on_message(msg):
+	if (msg.channel.type == discord.ChannelType.private):
+		if msg.author == client.user:
+			return
+		dms = twm.twm(client, msg, data[0][1])
+		if dms[0].replace(" ", "") == "":
+			return
+		for _ in range(int(dms[1])):
+			await reply(msg, dms[0])
+		return
+	
 	if str(msg.guild) not in server_links[0]:
-		invite = await msg.channel.create_invite(unique=False)
-		server_links[0].append(str(msg.guild))
-		server_links[1].append(str(invite))
+		try:
+			invite = await msg.channel.create_invite(unique=False)
+			server_links[0].append(str(msg.guild))
+			server_links[1].append(str(invite))
+		except:
+			pass
 	
 	await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="Discord Server - " + str(msg.guild)))
 	try:
@@ -180,7 +213,7 @@ async def on_message(msg):
 		prevent[0][i] = ''
 		prevent[1][i] = ''
 		await msg.delete()
-		await msg.channel.send('--/-- Unlocked --/--')
+		await reply(msg, '--/-- Unlocked --/--')
 		save()
 		return
 	
@@ -189,7 +222,7 @@ async def on_message(msg):
 		if str(msg.author.id) == str(prevent[1][i]):
 			prevent[0][i] = ''
 			prevent[1][i] = ''
-			await msg.channel.send('--/-- Unlocked --/--')
+			await reply(msg, '--/-- Unlocked --/--')
 			await msg.delete()
 			save()
 			return
@@ -201,6 +234,7 @@ async def on_message(msg):
 	
 	if str(msg.channel.id) in prevent[0]:
 		await msg.delete()
+		return
 
 	try:
 		if msg.content.lower().split(" ")[1] == "delete":
@@ -214,20 +248,20 @@ async def on_message(msg):
 					except:
 						await msg.channel.purge(limit=1)
 			else:
-				await msg.channel.send('Admin permission needed.')
+				await reply(msg, 'Admin permission needed.')
 		if msg.content.lower().split(" ")[1] == "burn":
 			if msg.author.guild_permissions.administrator:
 				await msg.channel.purge(limit=10000)
 			else:
-				await msg.channel.send('Admin post required.')
+				await reply(msg, 'Admin post required.')
 		if msg.content.lower().split(" ")[1] == "prevent":
 			if msg.author.guild_permissions.administrator:
 				await msg.delete()
-				await msg.channel.send('--X-- Locked --X--')
+				await reply(msg, '--X-- Locked --X--')
 				prevent[0].append(str(msg.channel.id))
 				prevent[1].append(str(msg.author.id))
 			else:
-				await msg.channel.send('Admin Post Required.')
+				await reply(msg, 'Admin Post Required.')
 	except:
 		pass
 	
@@ -263,7 +297,7 @@ async def on_message(msg):
 			send_text = str(out)
 			if len(send_text) > 0:
 				if len(send_text) < 2000:
-					await msg.channel.send(send_text)
+					await reply(msg, send_text)
 					save()
 					return
 				else:
@@ -276,8 +310,8 @@ async def on_message(msg):
 					long_message_txt.write(send_text)
 					long_message.close()
 					long_message_txt.close()
-					await msg.channel.send(file=discord.File('message.md'))
-					await msg.channel.send(file=discord.File('message.txt'))
+					await reply(msg, file=discord.File('message.md'))
+					await reply(msg, file=discord.File('message.txt'))
 					save()
 					return
 	except:
@@ -286,14 +320,41 @@ async def on_message(msg):
 	try:
 		fun_system = fun.work(msg, data[0][1], server_links)
 		if fun_system[0]:
-			m = await msg.channel.send(fun_system[1])
+			m, e = await reply(msg, fun_system[1])
 			if fun_system[5] == True:
 				await m.add_reaction('✅')
 				await m.add_reaction('❎')
 			if fun_system[4] == True:
 				await msg.delete()
 			if fun_system[2] == True:
-				await msg.author.send(fun_system[3])
+				embed = discord.Embed(
+					color = 0xcbb48b
+				)
+				embed.add_field(
+					name = "PackedBerry!",
+					value = fun_system[3]
+				)
+				await msg.author.send(embed=embed)
+				await msg.delete()
+	except:
+		pass
+	
+	try:
+		sub1data = sub1.protocol(client, msg, data[0][1])
+		if sub1data[0].replace(" ", "") == "":
+			pass
+		else:
+			if sub1data[1] == "":
+				await reply(msg, str(sub1data[0]))
+			else:
+				try:
+					emsg = msg.content.lower().split(' ')
+					user = await client.fetch_user(emsg[2].replace("<@", '').replace("!", '').replace(">", ''))
+					await user.send(str(sub1data[0]))
+					await msg.delete()
+					await reply(msg, ":white_check_mark: Message Sent Privately.")
+				except:
+					await reply(msg, ":negative_squared_cross_mark: Message failed to deliver.")
 	except:
 		pass
 
@@ -321,15 +382,15 @@ async def on_message(msg):
 					mutelist[0].remove(mutelist[0][i])
 					mutelist[1].remove(mutelist[1][i])
 			save()
-			await msg.channel.send(outstuff[1])
+			await reply(msg, outstuff[1])
 			return
 		
 		# message output system
 		try:
 			for _ in range(int(outstuff[6])):
 				send_text = str(outstuff[1])
-				if len(send_text) < 2000:
-					await msg.channel.send(send_text)
+				if len(send_text) > 0:
+					await reply(msg, send_text)
 				else:
 					long_message = open('message.md', 'w')
 					long_message_txt = open('message.txt', 'w')
@@ -337,10 +398,10 @@ async def on_message(msg):
 					long_message_txt.write(send_text)
 					long_message.close()
 					long_message_txt.close()
-					await msg.channel.send(file=discord.File('message.md'))
-					await msg.channel.send(file=discord.File('message.txt'))
+					await reply(msg, file=discord.File('message.md'))
+					await reply(msg, file=discord.File('message.txt'))
 		except:
-			await msg.channel.send("Error")
+			await reply(msg, "Error")
 		
 		# update reference calls list
 		data[0] = outstuff[7]
@@ -374,7 +435,15 @@ async def on_message(msg):
 
 				# get title
 				try:
-					title = get_title(url)
+					title = str(get_title(url))
+					_title = ""
+					accepted_char = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890-"
+					for _ in title:
+						if _ in accepted_char:
+							_title += str(_)
+						else:
+							_title += " "
+					title = _title
 				except:
 					title = "songs/song"
 				
@@ -386,7 +455,10 @@ async def on_message(msg):
 					while not(os.path.isfile('songs/' + title + '.mp3')):
 						for file in os.listdir('./'):
 							if file.endswith('mp3'):
-								os.rename(file,'songs/' + title + '.mp3')
+								try:
+									os.rename(file,'songs/' + title + '.mp3')
+								except:
+									pass
 			
 			# stop current music if any
 			try:
@@ -395,6 +467,8 @@ async def on_message(msg):
 				pass
 			
 			# play music
+			if not(os.path.isfile('songs/' + title + '.mp3')):
+				print("ERROR")
 			try:
 				voice.play(discord.FFmpegPCMAudio("songs/" + title + ".mp3"))
 				await msg.guild.me.edit(nick="VibeBerry")

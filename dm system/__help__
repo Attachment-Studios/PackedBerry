@@ -1,0 +1,73 @@
+***
+pong
+```yml
+syntax: ping
+usage: Says pong
+```
+***
+spam
+```yml
+syntax: <prefix> spam (amount) (text)
+usage: Spams (text) for (amount) number of times.
+```
+***
+random-number
+```yml
+syntax: <prefix> random-number [lower-limit] [upper-limit]
+usage: Picks a random number, if specified [upper-limit] returns below [upper-limit] and if specified [lower-limit] returns above [lower-limit] and if only one limit given, assumed [upper-limit] it is.
+```
+***
+choose
+```yml
+syntax: <prefix> choose (option1) [option2] [option3] [option...]
+usage: Chooses one from the given options. (option1) is compulsory.
+```
+***
+random-rearrangement
+```yml
+syntax: <prefix> random-rearrangement (word)
+usage: Randomly rearranges letters of (word) given.
+```
+***
+whatsnew
+```yml
+syntax: <prefix> whatsnew
+usage: Gives what's new in PackedBerry.
+```
+***
+hi
+```yml
+syntax: <prefix> hi
+usage: Says Hello.
+```
+***
+img
+```yml
+syntax: <prefix> img [seed]
+usage: Sends a random image if [seed] not given. With [seed] respective image.
+```
+***
+credits
+```yml
+syntax: <prefix> credits
+usage: Gives main credits for PackedBerry team.
+```
+***
+license
+```yml
+syntax: <prefix> license
+usage: Gives license(ASBL V3) for PackedBerry.
+```
+***
+help
+```yml
+syntax: <prefix> help [command]
+usage: Gives information about [command].
+```
+***
+ping
+```yml
+syntax: <prefix> ping
+usage: Pings user.
+```
+***

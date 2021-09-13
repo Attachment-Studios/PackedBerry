@@ -1,0 +1,20 @@
+PackedBerry Service - Help
+
+This help is for Talk With Me Bot Mode.
+These commands might not work as expected in DMs.
+
+Type `<prefix> help <command>` for getting specific command help.
+
+PackedBerry Command List
+```
+-- System Information Commands --
+help, version, whatsnew, credits, license
+
+-- Fun Commands --
+hi
+ping
+spam
+img
+pong
+random-number, random-rearrangement, choose
+```

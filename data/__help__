@@ -1,0 +1,301 @@
+***
+help
+```yml
+syntax: <prefix> help
+usage: Get all commands.
+```
+***
+version
+```yml
+syntax: <prefix> version
+usage: Get version of PackedBerry Service being used.
+```
+***
+whatsnew
+```yml
+syntax: <prefix> whatsnew
+usage: Gets information about whats new in version of PackedBerry Bot.
+```
+***
+credits
+```yml
+syntax: <prefix> credits
+usage: Returns credits for PackedBerry.
+```
+***
+license
+```yml
+syntax: <prefix> credits
+usage: Returns main license for PackedBerry.
+```
+***
+call
+```yml
+syntax: <prefix> call [name]
+usage: Gets all available prefixes to use if [name] not provided. If [name] given then adds [name] to the list of available prefixes.
+```
+***
+nocall
+```yml
+syntax: <prefix> nocall (name)
+usage: Removes (name) from the list of all available prefixes unless (name) is a system default prefix.
+```
+***
+delete
+```yml
+syntax: <prefix> delete (amount)
+usage: Deletes (amount) number of messages.
+```
+***
+burn
+```yml
+syntax: <prefix> burn
+usage: Used to empty the channel.
+```
+***
+prevent
+```yml
+syntax: <prefix> prevent
+usage: Locks the channel and prevents to write anything in it.
+```
+***
+unlock
+```yml
+syntax: <prefix> unlock
+usage: Unlocks the channel if locked.
+```
+***
+mute
+```yml
+syntax: <prefix> mute (user)
+usage: Mutes the user and doesn't let him talk.
+```
+***
+unmute
+```yml
+syntax: <prefix> unmute (user)
+usage: Unmutes the user and so he can talk.
+```
+***
+vibe
+```yml
+syntax: <prefix> vibe (url) (voice channel)
+usage: Plays music from YouTube with url as (url) in the (voice channel).
+```
+***
+novibe
+```yml
+syntax: <prefix> novibe
+usage: Stops playing music and disconnets from voice channel.
+```
+***
+pausevibe
+```yml
+syntax: <prefix> pausevibe
+usage: Pauses the music till it is resumed again.
+```
+***
+resumevibe
+```yml
+syntax: <prefix> resumevibe
+usage: Resumes music if paused.
+```
+***
+donevibe
+```yml
+syntax: <prefix> donevibe
+usage: Ends the music.
+```
+***
+in-dev
+```yml
+syntax: <prefix> in-dev
+usage: Gives message about current in-dev features if enabled.
+```
+***
+invite
+```yml
+syntax: <prefix> invite [server]
+usage: Sends invite of current server if [server] not given, else gives invite for [server].
+```
+***
+server
+```yml
+syntax: <prefix> server [server-id]
+usage: Gets information about server with id as [server-id] where [server-id] is set default for current server.
+```
+***
+servers
+```yml
+syntax: <prefix> servers
+usage: Sends a list of servers which contain PackedBerry bot.
+```
+***
+hi
+```yml
+syntax: <prefix> hi
+usage: Sends Hello.
+```
+***
+ping
+```yml
+syntax: <prefix> ping
+usage: Pings the user who called the command.
+```
+***
+spam
+```yml
+syntax: <prefix> spam (amount) (text)
+usage: Spams (text) (amount) number of times. Maximum value for (amount) is 25 and minimum is 1.
+```
+***
+sitename
+```yml
+syntax: <prefix> sitename (url)
+usage: Gets the title of site from (url)
+```
+***
+img
+```yml
+syntax: <prefix> img [seed]
+usage: Sends a random image if no seed else with seed gives specific output.
+```
+***
+dm-me
+```yml
+syntax: <prefix> dm-me (message)
+usage: DMs [Message] to message author privately.
+```
+***
+dm-user
+```yml
+syntax: <prefix> dm-user (user) (message)
+usage: DMs [Message] to (user) privately.
+```
+***
+say
+```yml
+syntax: <prefix> say (message)
+usage: Says (message) given by user in the server.
+```
+***
+random-number
+```yml
+syntax: <prefix> random-number [lower_limit] [upper_limit]
+usage: Returns a randum number. If limits given, picks a number between [lower_limit] and [upper_limit]. If only one limit specified, assumes limit given is [upper_limit] and [lower_limit] be 0.
+```
+***
+choose
+```yml
+syntax: <prefix> choose (option1) [option2] [option3] [option4] [option...]
+usage: Chooses one option from given options.
+```
+***
+random-rearrangement
+```yml
+syntax: <prefix> random-rearrangement (text)
+usage: Randomly rearranges the letters of (text).
+```
+***
+translate
+```yml
+syntax: <prefix> translate (destination-language) (text)
+usage: Translates (text) to (destination-language).
+```
+***
+translate_link
+```yml
+syntax: <prefix> translate_link (destination-language) (text)
+usage: Translates (text) to (destination-language) and sends link for accessing translation.
+```
+***
+table_tennis
+```yml
+syntax: <prefix> table_tennis
+usage: Starts a solo table tennis match.
+```
+***
+ping
+```yml
+syntax: ping
+usage: Replies "pong".
+```
+***
+rally
+```yml
+syntax: <prefix> rally (rally-name)
+usage: Creates(if not) and votes to (rally-name).
+```
+***
+unrally
+```yml
+syntax: <prefix> unrally (rally-name)
+usage: Removes user votes from (rally-name).
+```
+***
+rally-list
+```yml
+syntax: <prefix> rally-list
+usage: Returns list of available rallies.
+```
+***
+rally-count
+```yml
+syntax: <prefix> rally-count (rally-name)
+usage: Counts votes for (rally-name).
+```
+***
+captcha
+```yml
+syntax: <prefix> captcha
+usage: Sends a verification code in dm.
+```
+***
+verify
+```yml
+syntax: <prefix> verify (code)
+usage: Verifies user if (code) matches.
+```
+***
+human
+```yml
+syntax: <prefix> human
+usage: Says if mesage author is verified as human by PackedBerry.
+```
+***
+sus
+```yml
+syntax: <prefix> sus
+usage: Responds user is sus.
+```
+***
+amogus(postponed)
+```yml
+syntax: <prefix> amogus
+usage: in dev, amogus game.
+```
+***
+hotcold
+```yml
+syntax: <prefix> hotcold [limit]
+usage: Starts a game of `HotCold`. Player guesses a number. If cold the number is larger and if hot then smaller.
+```
+***
+nomenclate
+```yml
+syntax: <prefix> nomenclate [word-size]
+usage: Creates a random word that can be okay enough for being pronounced. It [word-size] given, sends word with given [word-size].
+```
+***
+poll
+```yml
+syntax: <prefix> poll (topic)
+usage: Creates a yes-no poll for (topic).
+```
+***
+coin
+```yml
+syntax: <prefix> coin
+usage: Flips a coin.
+```
+***
