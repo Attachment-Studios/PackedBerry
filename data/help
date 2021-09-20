@@ -39,6 +39,7 @@ dm-me, dm-user
 translate(limited), translate_link
 captcha, verify, human
 nomenclate
+messages
 
 -- Fun Commands --
 img
@@ -48,5 +49,6 @@ sus, amogus(dev, unstable)
 hotcold
 poll
 coin
+xp, level
 ```
 

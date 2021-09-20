@@ -4,7 +4,8 @@ mt = [
 	"img", "image", "pic", "picsum", "photo",
 	"spam",
 	"ping",
-	"pong"
+	"pong",
+	"invite"
 ]
 
 pb = {
@@ -16,10 +17,10 @@ pb = {
 	"credits" : "Credits",
 	"credit" : "Credits",
 	"license" : "ASBL V3",
-	"call" : "Add Prefix",
-	"nocall" : "Remove Prefix",
-	"delete" : "Delete Messages",
-	"burn" : "Clean Channel",
+	"call" : "Prefixes",
+	"nocall" : "Prefixes",
+	"delete" : "Clean Up",
+	"burn" : "Clean Up",
 	"prevent" : "Lock Channel",
 	"unlock" : "Unlock Channel",
 	"mute" : "Mute User",
@@ -47,7 +48,8 @@ pb = {
 	"picsum" : "Image",
 	"dm-me" : "DM",
 	"dm-user" : "DM",
-	"say" : "Say",
+	"dm" : "DM",
+	"say" : "Says",
 	"random-number" : "Random Number Generator",
 	"choose" : "Random Selector",
 	"random-rearrangement" : "Super Random Anagram",
@@ -72,7 +74,11 @@ pb = {
 	"nomenclate" : "Nomenclate",
 	"name" : "Nomenclate",
 	"poll" : "Poll",
-	"coin": "Flip A Coin"
+	"coin": "Flip A Coin",
+	"level": "Chat Level",
+	"levels": "Chat Level",
+	"xp": "Chat XP",
+	"messages": "Message Count",
 }
 
 def cmd(message):
@@ -82,6 +88,22 @@ def cmd(message):
 	except:
 		r = "Hmmm..."
 	return r
+
+def cmd_check(message, data_list):
+	msg = message.split(' ')
+	if msg[0] in data_list:
+		try:
+			if msg[1] in pb:
+				return True
+			else:
+				return False
+		except:
+			return None
+	else:
+		if "red" in message:
+			return None
+		else:
+			return []
 
 def emb_check(message):
 	if cmd(message) in mt:

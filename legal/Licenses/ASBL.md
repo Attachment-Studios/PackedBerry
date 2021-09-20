@@ -13,6 +13,6 @@ Product Information:
 - Product Name: PackedBerry
 - Product Category: Bots
 - Product Genre: Service Bot
-- Product Version: "PackedBerry"@o.gamma
+- Product Version: Berry 1
 - Author: Attachment Aditya
 - Company: Attachment Studios

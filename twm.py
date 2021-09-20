@@ -133,7 +133,7 @@ def twm(client, message, prefix):
 			if cmd == "":
 				out = "Yes!?"
 			else:
-				out = "If you think that is a command.\n```Your thought is arguable.```"
+				out = "If you think that is a command.\n```diff\n-> Your thought is arguable. <-\n```"
 	else:
 		out = "Hmmmmmmmmmmm..."
 

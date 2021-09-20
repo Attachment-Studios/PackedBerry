@@ -1,4 +1,22 @@
 ***
+messages
+```yml
+syntax: <prefix> messages [user]
+usage: Gets total message count for [user], [user] default to message author.
+```
+***
+xp
+```yml
+syntax: <prefix> xp [user]
+usage: Gets XP amount for [user], [user] default to message author.
+```
+***
+level
+```yml
+syntax: <prefix> level [user]
+usage: Gets level for [user], [user] default to message author.
+```
+***
 help
 ```yml
 syntax: <prefix> help

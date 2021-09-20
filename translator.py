@@ -7,6 +7,7 @@ def translate(text: str, dest: str):
 	fl = detect(text)
 	translator = tr(from_lang=str(fl), to_lang=str(dest))
 	translation = translator.translate(text)
+	translation = translation.replace('&#39;', "'").replace('&#10;', "\n")
 	return str(translation)
 
 def backup_translate(text: str, dest: str):

@@ -217,9 +217,8 @@ def out(message, refname, client):
 			else:
 				delete = False"""
 			pass
-		if out == "":
-			return_value = [
-				False,
+		return_value = [
+				not(out == ""),
 				out,
 				delete,
 				connectVoice,
@@ -230,9 +229,7 @@ def out(message, refname, client):
 				mutelist,
 				unmutelist
 			]
-			return return_value
-		else:
-			return [True, out, delete, connectVoice, voiceChannel, song_url, repeat, calls, mutelist, unmutelist]
+		return return_value
 	except:
 		pass
 

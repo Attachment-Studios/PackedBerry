@@ -2,8 +2,12 @@
 
 from flask import Flask
 from threading import Thread
+import logging
 
 app = Flask('')
+
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 @app.route('/')
 def home():
@@ -32,7 +36,7 @@ def home():
 	return html
 
 def run():
-	app.run(host='0.0.0.0',port=8080)
+	app.run(host='0.0.0.0',port=2021)
 
 def status():
 	t = Thread(target=run)

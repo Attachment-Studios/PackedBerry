@@ -141,6 +141,9 @@ human:
 nomenclate:
 	syntax: <prefix> nomenclate [word-size]
 	usage: Creates a random word that can be okay enough for being pronounced. It [word-size] given, sends word with given [word-size].
+messages:
+	syntax: <prefix> messages [user]
+	usage: Gets total message count for [user], [user] default to message author.
 
 -- Fun Commands --
 img:
@@ -176,5 +179,11 @@ poll:
 coin:
 	syntax: <prefix> coin
 	usage: Flips a coin.
+xp:
+	syntax: <prefix> xp [user]
+	usage: Gets XP amount for [user], [user] default to message author.
+level:
+	syntax: <prefix> level [user]
+	usage: Gets level for [user], [user] default to message author.
 
 --------------------------------
