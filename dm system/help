@@ -6,9 +6,16 @@ These commands might not work as expected in DMs.
 Type `<prefix> help <command>` for getting specific command help.
 
 PackedBerry Command List
-```
+```diff
 -- System Information Commands --
-help, version, whatsnew, credits, license
+help
+version, whatsnew
+credits
+license, tac
+
+-- Utility Commands --
+server-help
+in-dev
 
 -- Fun Commands --
 hi

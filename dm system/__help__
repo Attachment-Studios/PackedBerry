@@ -1,4 +1,22 @@
 ***
+in-dev
+```yml
+syntax: <prefix> in-dev
+usage: Gives message about current in-dev features if enabled.
+```
+***
+server-help
+```yml
+syntax: <prefix> server-help
+usage: Sends the help data for servers.
+```
+***
+tac
+```yml
+syntax: <prefix> tac
+usage: Returns PackedBerry Terms and Conditions.
+```
+***
 pong
 ```yml
 syntax: ping

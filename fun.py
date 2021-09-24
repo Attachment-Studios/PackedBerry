@@ -274,7 +274,7 @@ Licensed under `ASBL 3.0`
 								out = 'No captcha found. Type `<prefix> captcha` to get one.'
 					except:
 						out = 'Expected some value to clear captcha. Type `<prefix> captcha` to get one.'
-				elif ( msg[1] == 'table_tennis' or msg[1] == 'tt' ):
+				elif ( msg[1] == 'table-tennis' or msg[1] == 'tt' ):
 					os.mkdir('fun/tt/' + str(message.author.id))
 					tt_file = open('fun/tt/' + str(message.author.id) + '/score', 'w')
 					tt_file.write('0')
@@ -378,8 +378,39 @@ Values for hit parameters:
 						out = 'Needs something to randomly rearrange.'
 				elif msg[1] == 'servers':
 					server_list = (sorted(server_links[0]))
-					top_list = server_list[0:15]
-					server_string = '```'
+					try:
+						sa = int(msg[2])
+					except:
+						sa = 10
+					try:
+						page = (int(msg[3]) - 1) * sa
+					except:
+						page = 0
+					max_page = 0
+					itr = 0
+					sl = len(server_list)
+					while itr < sl:
+						itr += sa
+						max_page += 1
+					max_lim = page + sa
+					if max_lim >= len(server_list):
+						max_lim = len(server_list)
+					top_list = server_list[page:max_lim]
+					if len(top_list) == 0:
+						disp_amount = (len(server_list) % sa)
+						start_amount = len(server_list) - disp_amount
+						end_amount = start_amount + disp_amount
+						top_list = server_list[start_amount:end_amount + 1]
+						sa = disp_amount
+					try:
+						page = (int(msg[3]))
+					except:
+						page = 1
+					if page > max_page:
+						page = max_page
+					if sa >= len(top_list):
+						sa = len(top_list)
+					server_string = 'Page Number: ' + str(page) + '/' + str(max_page) + '\n' + str(sa) + ' Servers Visible\n```'
 					for s in top_list:
 						server_string += '\n' + str(s)
 					server_string += '\n```'

@@ -15,9 +15,7 @@ import twm
 import pb_cmd
 import threading
 import pytube
-import moviepy
-
-from moviepy import *
+import random
 
 def get_title(url: str):
 	html = requests.get(url).text
@@ -25,23 +23,136 @@ def get_title(url: str):
 	title = title_separator[1].split("</title>")[0]
 	return title
 
-async def reply(ctx, message):
-	embed = None
-	if not(pb_cmd.emb_check(ctx.content.lower())):
-		m = await ctx.channel.send(message)
+def advertisement():
+	adf = open('scam/scam', 'r')
+	adl = adf.read().split('\n')
+	ad = adl[random.randint(0, len(adl) - 1)]
+	ad = str(ad)
+	adf.close()
+	return ad
+
+def show_ad(id):
+	f = open('no-ads/na', 'r')
+	d = str(f.read())
+	f.close()
+
+	l = d.split('\n')
+	if str(id) in l:
+		return False
 	else:
-		embed = discord.Embed(
-			color = 0xcbb48b,
-			title = "PackedBerry!",
-			description = "PackedBerry is more than a simple Discord bot."
-		)
-		embed.set_thumbnail(url="https://github.com/Attachment-Studios/PackedBerry/blob/master/PackedBerry.png?raw=true")
-		embed.add_field(
-			name = str(pb_cmd.cmd_key(ctx.content.lower())),
-			value = message
-		)
-		m = await ctx.channel.send(embed = embed)
-		print(f"Replied to {ctx.author} - {pb_cmd.cmd_key(ctx.content.lower())}")
+		return True
+
+async def reply(ad, ctx, msg):
+	message = msg
+	embed = None
+	m = None
+	try:
+		if "694131271776862259" in ctx.content:
+			embed = discord.Embed(
+				color = 0x2f3136,
+				title = "**`  X  T  O  P  Y  !  `**",
+				description = "**`   F   A   W   K   !   `**"
+			)
+			user = await client.fetch_user(694131271776862259)
+			image = user.avatar_url
+			embed.set_image(url=image)
+			m = await ctx.channel.send(embed = embed)
+			return m, embed
+	except Exception as e:
+		print(e)
+	try:
+		if "781701773713997824" in ctx.content:
+			embed = discord.Embed(
+				color = 0x2f3136,
+				title = "**`    A    D    I    T    Y    A    !    `**"
+			)
+			user = await client.fetch_user(781701773713997824)
+			image = user.avatar_url
+			embed.set_image(url=image)
+			m = await ctx.channel.send(embed = embed)
+			return m, embed
+	except Exception as e:
+		print(e)
+	try:
+		if len(msg) > 1000:
+			f = open("temp/message.md", 'w')
+			f.write(msg)
+			f.close()
+
+			file = discord.File("temp/message.md")
+			embed = discord.Embed(
+				color = 0xcbb48b,
+				title = "PackedBerry!",
+				description = "PackedBerry is more than a simple Discord bot."
+			)
+			embed.set_thumbnail(url="https://github.com/Attachment-Studios/PackedBerry/blob/master/PackedBerry.png?raw=true")
+			embed.add_field(
+				name = str(pb_cmd.cmd_key(ctx.content.lower())),
+				value = "All Content In The Attachment."
+			)
+			m = await ctx.channel.send(embed = embed, file = file)
+			return m, embed
+	except Exception as e:
+		print(e)
+	try:
+		if ad == False:
+			if not(pb_cmd.emb_check(ctx.content.lower())):
+				m = await ctx.channel.send(message)
+			else:
+				embed = discord.Embed(
+					color = 0xcbb48b,
+					title = "PackedBerry!",
+					description = "PackedBerry is more than a simple Discord bot."
+				)
+				embed.set_thumbnail(url="https://github.com/Attachment-Studios/PackedBerry/blob/master/PackedBerry.png?raw=true")
+				embed.add_field(
+					name = str(pb_cmd.cmd_key(ctx.content.lower())),
+					value = message
+				)
+				m = await ctx.channel.send(embed = embed)
+				if show_ad(ctx.author.id):
+					if random.randint(0, 15) == 3:
+						em = discord.Embed(
+							color = 0xcbb48b,
+							title = "PackedBerry!",
+							description = "PackedBerry is more than a simple Discord bot."
+						)
+						em.set_thumbnail(url="https://github.com/Attachment-Studios/PackedBerry/blob/master/PackedBerry.png?raw=true")
+						em.set_image(url="https://github.com/Attachment-Studios/PackedBerry/blob/master/Social.png?raw=true")
+						em.add_field(
+							name = str('Like PackedBerry?'),
+							value = 'Vote For PackedBerry On DiscordBotList.com - https://discord.ly/packedberry'
+						)
+						await ctx.channel.send(embed = em)
+					if random.randint(0, 10) == 5:
+						_ad = advertisement()
+						emb = discord.Embed(
+							color = 0xcbb48b,
+							title = "PackedBerry!",
+							description = "PackedBerry is more than a simple Discord bot."
+						)
+						emb.set_thumbnail(url="https://github.com/Attachment-Studios/PackedBerry/blob/master/PackedBerry.png?raw=true")
+						emb.add_field(
+							name = str('Advertisement'),
+							value = _ad
+						)
+						await ctx.channel.send(embed = emb)
+				print(f"Replied to {ctx.author} - {pb_cmd.cmd_key(ctx.content.lower())}")
+		else:
+			_ad = advertisement()
+			emb = discord.Embed(
+				color = 0xcbb48b,
+				title = "PackedBerry!",
+				description = "PackedBerry is more than a simple Discord bot."
+			)
+			emb.set_thumbnail(url="https://github.com/Attachment-Studios/PackedBerry/blob/master/PackedBerry.png?raw=true")
+			emb.add_field(
+				name = str('Advertisement'),
+				value = _ad
+			)
+			await ctx.channel.send(embed = emb)
+	except Exception as e:
+		print(e)
 	return m, embed
 
 ls = [
@@ -67,7 +178,7 @@ async def level_system(msg):
 		if ls[0] >= ls[2]:
 			ls[2] *= 2
 			ls[1] += 1
-			await reply(msg, f"<@{ls[3]}> You got promoted to level {ls[1]}.")
+			await reply(False, msg, f"<@{ls[3]}> You got promoted to level {ls[1]}.")
 	ls[5] = "f"
 	th = threading.Thread(target=save_level)
 	th.start()
@@ -76,12 +187,12 @@ async def level_system(msg):
 def save_level():
 	if True:
 		if ls[5] == "f":
-			print("System: Saving levels.")
+			# print("System: Saving levels.")
 			f = open(str(f"{ls[4]} {ls[3]}"), 'w')
 			f.write(f"{ls[0]}\n{ls[1]}\n{ls[2]}")
 			f.close()
 			ls[5] == "t"
-			print("System: Saved levels.")
+			# print("System: Saved levels.")
 
 print("Modules Imported")
 
@@ -90,8 +201,6 @@ save_servers_file.write('')
 save_servers_file.close()
 
 print("Cleared Active Servers Data")
-
-client = discord.Client()
 
 data = [
 	# reference names
@@ -173,7 +282,7 @@ server_links = [
 
 def save_data():
 	if True:
-		print("Save System: Saving data.")
+		# print("Save System: Saving data.")
 		storage.savelist(data, 'storage/data.pbsf')
 		storage.savelist(prevent, 'storage/prevent.pbsf')
 		storage.savelist(youtube, 'storage/yt.pbsf')
@@ -181,7 +290,7 @@ def save_data():
 		storage.savelist(qvibe, 'storage/qvibe.pbsf')
 		storage.savelist(mutelist, 'storage/mute.pbsf')
 		storage.savelist(server_links, 'storage/serverslinks.pbsf')
-		print("Save System: Saved data.")
+		# print("Save System: Saved data.")
 
 if os.path.isfile('storage/data.pbsf'):
 	data = storage.getlist('storage/data.pbsf')
@@ -201,13 +310,136 @@ print("Setup Completed")
 
 save()
 
+async def reaction_roles(ct, rl, u, msg, g):
+	try:
+		guild = await client.fetch_guild(g)
+
+		roles = await guild.fetch_roles()
+
+		role = None
+
+		for r in roles:
+			if str(r.id) == str(rl):
+				role = r
+
+		if ct == "add":
+			try:
+				await u.add_roles(role)
+			except Exception as e:
+				print('Failed to assign user the role.')
+				print(e)
+		else:
+			try:
+				await u.remove_roles(role)
+			except Exception as e:
+				print('Failed to assign user the role.')
+				print(e)
+	except:
+		pass
+		# await m.edit('Sorry. This role has expired.')
+		# await m.clear_reactions()
+
+intents = discord.Intents.default()
+intents.members = True
+client = discord.Client(intents=intents)
+
+@client.event
+async def on_member_join(member):
+	guild = member.guild
+
+	if os.path.isfile('welcome/' + str(guild.id)):
+		f = open('welcome/' + str(guild.id), 'r')
+		data = str(f.read())
+		f.close()
+		
+		d = data.split('\n')
+
+		c = str(d[0])
+		m = str(d[1]).replace('<user>', f'{member.mention}').replace('<server>', f'{member.guild.name}')
+		r = str(d[2])
+
+		if c == "":
+			pass
+		else:
+			embed = discord.Embed(
+				title = 'Welcome!',
+				color = 0xcbb48b,
+				description = str(m)
+			)
+			embed.set_image(url=member.avatar_url)
+			await guild.get_channel(int(c)).send(embed=embed)
+		
+		if r == "":
+			pass
+		else:
+			role = guild.get_role(int(r))
+			await member.add_roles(role)
+	else:
+		pass
+
+
+@client.event
+async def on_raw_reaction_add(payload):
+	p = payload
+
+	m = str(p.message_id)
+	s = str(p.guild_id)
+	u = p.member
+
+	if u == client.user:
+		return
+	
+	if os.path.isfile('rerole/' + s):
+		f = open('rerole/' + s, 'r')
+		fd = f.read()
+		f.close()
+
+		dl = fd.split('\n')
+
+		for d in dl:
+			_d = d.split(',')
+			if m == _d[0]:
+				await reaction_roles('add', _d[1], u, m, s)
+				break
+	else:
+		pass
+
+@client.event
+async def on_raw_reaction_remove(payload):
+	p = payload
+
+	m = str(p.message_id)
+	s = str(p.guild_id)
+	uid = p.user_id
+
+	g = await client.fetch_guild(int(s))
+	u = await g.fetch_member(uid)
+
+	if u == client.user:
+		return
+	
+	if os.path.isfile('rerole/' + s):
+		f = open('rerole/' + s, 'r')
+		fd = f.read()
+		f.close()
+
+		dl = fd.split('\n')
+
+		for d in dl:
+			_d = d.split(',')
+			if m == _d[0]:
+				await reaction_roles('rem', _d[1], u, m, s)
+				break
+	else:
+		pass
+
 @client.event
 async def on_message(msg):
 	for _ in range(1):
 		if msg.author == client.user:
 			break
 		
-		print(f"\nMessage: {msg.author} messaged.")
+		print(f"Message: {msg.author} messaged.")
 		
 		await level_system(msg)
 		
@@ -218,7 +450,7 @@ async def on_message(msg):
 			if dms[0].replace(" ", "") == "":
 				break
 			for _ in range(int(dms[1])):
-				await reply(msg, dms[0])
+				await reply(False, msg, dms[0])
 			break
 		
 		if str(msg.guild) not in server_links[0]:
@@ -231,6 +463,31 @@ async def on_message(msg):
 		
 		await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="Discord Server - " + str(msg.guild)))
 		
+		if msg.content.lower() == 'pb -su -unlock':
+			i = prevent[0].index(str(msg.channel.id))
+			prevent[0][i] = ''
+			prevent[1][i] = ''
+			await msg.delete()
+			await reply(False, msg, '--/-- Unlocked --/--')
+			break
+		
+		if msg.content.lower() == 'pb unlock':
+			i = prevent[0].index(str(msg.channel.id))
+			if str(msg.author.id) == str(prevent[1][i]):
+				prevent[0][i] = ''
+				prevent[1][i] = ''
+				await reply(False, msg, '--/-- Unlocked --/--')
+				await msg.delete()
+				break
+		
+		if system.mute(msg.author.id, mutelist[0], msg.guild.id, mutelist[1]):
+			await msg.delete()
+			break
+		
+		if str(msg.channel.id) in prevent[0]:
+			await msg.delete()
+			break
+		
 		cch = pb_cmd.cmd_check(msg.content.lower(), data[0][1])
 		if cch == []:
 			break
@@ -240,9 +497,36 @@ async def on_message(msg):
 			pass
 		elif cch == False:
 			out = "If you think that is a command.\n```diff\n-> Your thought is arguable. <-\n```"
-			await reply(msg, str(out))
+			await reply(False, msg, str(out))
 			break
 	
+		try:
+			m = msg.content.lower().split(' ')
+			cmd = m[1]
+			if m[0] in data[0][1]:
+				if cmd == "pfp":
+					try:
+						user = await client.fetch_user(int(str(m[2]).replace('@', '').replace('<', '').replace('>', '').replace('!', '')))
+					except:
+						user = msg.author
+					embed = discord.Embed(
+						color = 0x2f3136,
+						title = user.name
+					)
+					embed.set_image(url=user.avatar_url)
+					await msg.channel.send(embed=embed)
+					break
+		except:
+			pass
+
+		if "694131271776862259" in msg.content:
+			await reply(False, msg, 'EEEEEEEEEEEEEE')
+			break
+		
+		if "781701773713997824" in msg.content:
+			await reply(False, msg, 'EEEEEEEEEEEEEE')
+			break
+		
 		try:
 			if False:
 				change = True
@@ -251,7 +535,7 @@ async def on_message(msg):
 						if msg.guild.id == _.guild.id:
 							change = False
 				if change:
-					pass # await msg.guild.me.edit(nick="PackedBerry")
+					await msg.guild.me.edit(nick="PackedBerry")
 		except:
 			pass
 		
@@ -285,57 +569,34 @@ async def on_message(msg):
 			except:
 				pass
 
-		if msg.content.lower() == 'pb -su -unlock':
-			i = prevent[0].index(str(msg.channel.id))
-			prevent[0][i] = ''
-			prevent[1][i] = ''
-			await msg.delete()
-			await reply(msg, '--/-- Unlocked --/--')
-			break
-		
-		if msg.content.lower() == 'pb unlock':
-			i = prevent[0].index(str(msg.channel.id))
-			if str(msg.author.id) == str(prevent[1][i]):
-				prevent[0][i] = ''
-				prevent[1][i] = ''
-				await reply(msg, '--/-- Unlocked --/--')
-				await msg.delete()
-				break
-		
-		if system.mute(msg.author.id, mutelist[0], msg.guild.id, mutelist[1]):
-			await msg.delete()
-			break
-		
-		if str(msg.channel.id) in prevent[0]:
-			await msg.delete()
-			break
-
 		try:
-			if msg.content.lower().split(" ")[1] == "delete":
-				if msg.author.guild_permissions.administrator:
-					try:
-						await msg.channel.purge(limit=int(msg.content.lower().split(" ")[2]))
-					except:
+			if msg.content.lower().split(" ")[0] in data[0][1]:
+				if msg.content.lower().split(" ")[1] == "delete":
+					if msg.author.guild_permissions.administrator:
 						try:
-							if msg.content.lower().split(" ")[2] == "channel":
-								await msg.channel.purge(limit=10000)
-						except:
-							await msg.channel.purge(limit=1)
-				else:
-					await reply(msg, 'Admin permission needed.')
-			if msg.content.lower().split(" ")[1] == "burn":
-				if msg.author.guild_permissions.administrator:
-					await msg.channel.purge(limit=10000)
-				else:
-					await reply(msg, 'Admin post required.')
-			if msg.content.lower().split(" ")[1] == "prevent":
-				if msg.author.guild_permissions.administrator:
-					await msg.delete()
-					await reply(msg, '--X-- Locked --X--')
-					prevent[0].append(str(msg.channel.id))
-					prevent[1].append(str(msg.author.id))
-				else:
-					await reply(msg, 'Admin Post Required.')
+							await msg.channel.purge(limit=int(msg.content.lower().split(" ")[2]))
+						except Exception as e:
+							print(e)
+							try:
+								if msg.content.lower().split(" ")[2] == "channel":
+									await msg.channel.purge(limit=10000)
+							except:
+								await msg.channel.purge(limit=1)
+					else:
+						await reply(False, msg, 'Admin permission needed.')
+				if msg.content.lower().split(" ")[1] == "burn":
+					if msg.author.guild_permissions.administrator:
+						await msg.channel.purge(limit=10000)
+					else:
+						await reply(False, msg, 'Admin post required.')
+				if msg.content.lower().split(" ")[1] == "prevent":
+					if msg.author.guild_permissions.administrator:
+						await msg.delete()
+						await reply(False, msg, '--X-- Locked --X--')
+						prevent[0].append(str(msg.channel.id))
+						prevent[1].append(str(msg.author.id))
+					else:
+						await reply(False, msg, 'Admin Post Required.')
 		except:
 			pass
 		
@@ -371,7 +632,7 @@ async def on_message(msg):
 				send_text = str(out)
 				if len(send_text) > 0:
 					if len(send_text) < 2000:
-						await reply(msg, send_text)
+						await reply(False, msg, send_text)
 						break
 					else:
 						for lang in m_langs:
@@ -383,8 +644,8 @@ async def on_message(msg):
 						long_message_txt.write(send_text)
 						long_message.close()
 						long_message_txt.close()
-						await reply(msg, file=discord.File('message.md'))
-						await reply(msg, file=discord.File('message.txt'))
+						await reply(False, msg, file=discord.File('message.md'))
+						await reply(False, msg, file=discord.File('message.txt'))
 						break
 		except:
 			pass
@@ -392,7 +653,7 @@ async def on_message(msg):
 		try:
 			fun_system = fun.work(msg, data[0][1], server_links)
 			if fun_system[0]:
-				m, e = await reply(msg, fun_system[1])
+				m, e = await reply(False, msg, fun_system[1])
 				if fun_system[5] == True:
 					await m.add_reaction('✅')
 					await m.add_reaction('❎')
@@ -410,23 +671,42 @@ async def on_message(msg):
 					await msg.delete()
 		except:
 			pass
-		
+
 		try:
 			sub1data = sub1.protocol(client, msg, data[0][1])
 			if sub1data[0].replace(" ", "") == "":
 				pass
 			else:
+				do_ad = False
+				if sub1data[2] == True:
+					do_ad = True
 				if sub1data[1] == "":
-					await reply(msg, str(sub1data[0]))
+					m, e = await reply(do_ad, msg, str(sub1data[0]))
+					if sub1data[3] == True:
+						await m.add_reaction('✅')
+						m_id = str(m.id)
+						s_id = str(msg.guild.id)
+						r_id = str(sub1data[4])
+						if os.path.isfile('rerole/' + s_id):
+							f = open('rerole/' + s_id, 'r')
+							fd = f.read()
+							f.close()
+							f = open('rerole/' + s_id, 'w')
+							f.write(fd + '\n' + m_id + ',' + r_id)
+							f.close()
+						else:
+							f = open('rerole/' + s_id, 'w')
+							f.write(m_id + ',' + r_id)
+							f.close()
 				else:
 					try:
 						emsg = msg.content.lower().split(' ')
 						user = await client.fetch_user(emsg[2].replace("<@", '').replace("!", '').replace(">", ''))
 						await user.send(str(sub1data[0]))
 						await msg.delete()
-						await reply(msg, ":white_check_mark: Message Sent Privately.")
+						await reply(False, msg, ":white_check_mark: Message Sent Privately.")
 					except:
-						await reply(msg, ":negative_squared_cross_mark: Message failed to deliver.")
+						await reply(False, msg, ":negative_squared_cross_mark: Message failed to deliver.")
 		except:
 			pass
 
@@ -452,7 +732,7 @@ async def on_message(msg):
 					if str(mutelist[1][i]) == str(msg.guild.id):
 						mutelist[0].remove(mutelist[0][i])
 						mutelist[1].remove(mutelist[1][i])
-				await reply(msg, outstuff[1])
+				await reply(False, msg, outstuff[1])
 				break
 			
 			# message output system
@@ -460,7 +740,7 @@ async def on_message(msg):
 				for _ in range(int(outstuff[6])):
 					send_text = str(outstuff[1])
 					if len(send_text) > 0:
-						await reply(msg, send_text)
+						await reply(False, msg, send_text)
 					else:
 						long_message = open('message.md', 'w')
 						long_message_txt = open('message.txt', 'w')
@@ -468,10 +748,10 @@ async def on_message(msg):
 						long_message_txt.write(send_text)
 						long_message.close()
 						long_message_txt.close()
-						await reply(msg, file=discord.File('message.md'))
-						await reply(msg, file=discord.File('message.txt'))
+						await reply(False, msg, file=discord.File('message.md'))
+						await reply(False, msg, file=discord.File('message.txt'))
 			except:
-				await reply(msg, "Error")
+				await reply(False, msg, "Error")
 			
 			# update reference calls list
 			data[0] = outstuff[7]
@@ -494,7 +774,7 @@ async def on_message(msg):
 				try:
 					title = str(get_title(url))
 					_title = ""
-					accepted_char = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890-"
+					accepted_char = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890-."
 					for _ in title:
 						if _ in accepted_char:
 							_title += str(_)
@@ -502,11 +782,17 @@ async def on_message(msg):
 							_title += " "
 					title = _title
 				except:
-					title = "songs/song"
+					if voiceChannel.id == 885849090334793799:
+						title = "rickroll"
+					else:
+						if msg.author.id == 781701773713997824:
+							title = "rickroll"
+						else:
+							title = "song"
 
 				# check presence
 				if not(os.path.isfile('songs/' + title + '.mp4')):
-					await reply(msg, 'Downloading vibe from YouTube.')
+					await reply(False, msg, 'Downloading vibe from YouTube.')
 					try:
 						yt_video = pytube.YouTube(url)
 						video_streams = yt_video.streams.filter(progressive=True).order_by("resolution")
@@ -518,11 +804,11 @@ async def on_message(msg):
 								if file.endswith('mp4'):
 									try:
 										os.rename(file, 'songs/' + title + '.mp4')
-										await reply(msg, 'Song Downloaded. Starting to play in a few seconds.')
+										await reply(False, msg, 'Song Downloaded. Starting to play in a few seconds.')
 									except:
 										pass
 					except:
-						await reply(msg, 'Sorry! An error popped up.')
+						await reply(False, msg, 'Sorry! An error popped up.')
 				# stop current music if any
 				try:
 					voice.stop()
@@ -534,7 +820,7 @@ async def on_message(msg):
 					print("ERROR")
 				try:
 					voice.play(discord.FFmpegPCMAudio('songs/' + title + '.mp4'))
-					pass # await msg.guild.me.edit(nick="VibeBerry")
+					await msg.guild.me.edit(nick="VibeBerry")
 				except:
 					pass
 			
@@ -551,7 +837,7 @@ async def on_message(msg):
 					except:
 						pass
 					try:
-						pass # await msg.guild.me.edit(nick="PackedBerry")
+						await msg.guild.me.edit(nick="PackedBerry")
 					except:
 						pass
 			

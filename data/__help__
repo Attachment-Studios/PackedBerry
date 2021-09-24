@@ -1,4 +1,40 @@
 ***
+pfp
+```yml
+syntax: <prefix> pfp [user]
+usage: Gets profile picture of [user]. [user] default to message author.
+```
+***
+tac
+```yml
+syntax: <prefix> tac
+usage: Returns PackedBerry Terms and Conditions.
+```
+***
+welcome
+```yml
+syntax: <prefix> welcome
+usage: Used for configuring welcome messages.
+```
+***
+role
+```yml
+syntax: <prefix> role (role)
+usage: Creates a reaction role poll for (role).
+```
+***
+scam
+```yml
+syntax: <prefix> scam (data)
+usage: Adds (data) to ads list.
+```
+***
+ad
+```yml
+syntax: <prefix> ad
+usage: Shows an ad.
+```
+***
 messages
 ```yml
 syntax: <prefix> messages [user]
@@ -145,8 +181,8 @@ usage: Gets information about server with id as [server-id] where [server-id] is
 ***
 servers
 ```yml
-syntax: <prefix> servers
-usage: Sends a list of servers which contain PackedBerry bot.
+syntax: <prefix> servers [amount] [page]
+usage: Sends a list of servers which contain PackedBerry bot. Shows [amount] servers at a time. Pages can changed by changing [page], deafult to 0. [amount] default to 10.
 ```
 ***
 hi
@@ -227,9 +263,9 @@ syntax: <prefix> translate_link (destination-language) (text)
 usage: Translates (text) to (destination-language) and sends link for accessing translation.
 ```
 ***
-table_tennis
+table-tennis
 ```yml
-syntax: <prefix> table_tennis
+syntax: <prefix> table-tennis
 usage: Starts a solo table tennis match.
 ```
 ***

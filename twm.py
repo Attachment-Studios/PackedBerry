@@ -54,6 +54,18 @@ def twm(client, message, prefix):
 							break
 				if out == "":
 					out = "```yml\n*unavailable```"
+		elif cmd in ["in-dev", "indev"]:
+			f = open('data/next', 'r')
+			out = str(f.read())
+			f.close()
+		elif cmd == "server-help":
+			f = open('data/help', 'r')
+			out = str(f.read())
+			f.close()
+		elif cmd == "tac":
+			f = open('legal/TAC/tac.md', 'r')
+			out = '**PackedBerry Terms and Conditions**\n\n' + str(f.read()).replace('```', '------------------')
+			f.close()
 		elif cmd == "ping":
 			out = '<@' + str(message.author.id) + '>'
 		elif cmd in ["img", "image", "pic", "photo", "picsum"]:

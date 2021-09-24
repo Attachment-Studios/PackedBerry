@@ -27,6 +27,9 @@ credits:
 license:
 	syntax: <prefix> credits
 	usage: Returns main license for PackedBerry.
+tac:
+	syntax: <prefix> tac
+	usage: Returns PackedBerry Terms and Conditions.
 
 -- Bot Settings Commands --
 call:
@@ -73,20 +76,6 @@ donevibe:
 	syntax: <prefix> donevibe
 	usage: Ends the music.
 
--- Multiple Servers Commands --
-in-dev:
-	syntax: <prefix> in-dev
-	usage: Gives message about current in-dev features if enabled.
-invite:
-	syntax: <prefix> invite [server]
-	usage: Sends invite of current server if [server] not given, else gives invite for [server].
-server:
-	syntax: <prefix> server [server-id]
-	usage: Gets information about server with id as [server-id] where [server-id] is set default for current server.
-servers:
-	syntax: <prefix> servers
-	usage: Sends a list of servers which contain PackedBerry bot.
-
 -- Useless Commands --
 hi:
 	syntax: <prefix> hi
@@ -103,6 +92,9 @@ spam:
 say:
 	syntax: <prefix> say (message)
 	usage: Says (message) given by user in the server.
+ad:
+	syntax: <prefix> ad
+	usage: Shows an ad.
 
 -- Utility Commands --
 sitename:
@@ -144,13 +136,37 @@ nomenclate:
 messages:
 	syntax: <prefix> messages [user]
 	usage: Gets total message count for [user], [user] default to message author.
+scam:
+	syntax: <prefix> scam (data)
+	usage: Adds (data) to ads list.
+role:
+	syntax: <prefix> role (role)
+	usage: Creates a reaction role poll for (role).
+welcome:
+	syntax: <prefix> welcome
+	usage: Used for configuring welcome messages.
+in-dev:
+	syntax: <prefix> in-dev
+	usage: Gives message about current in-dev features if enabled.
+invite:
+	syntax: <prefix> invite [server]
+	usage: Sends invite of current server if [server] not given, else gives invite for [server].
+server:
+	syntax: <prefix> server [server-id]
+	usage: Gets information about server with id as [server-id] where [server-id] is set default for current server.
+servers:
+	syntax: <prefix> servers [amount] [page]
+	usage: Sends a list of servers which contain PackedBerry bot. Shows [amount] servers at a time. Pages can changed by changing [page], deafult to 0. [amount] default to 10.
+pfp:
+	syntax: <prefix> pfp [user]
+	usage: Gets profile picture of [user]. [user] default to message author.
 
 -- Fun Commands --
 img:
 	syntax: <prefix> img [seed]
 	usage: Sends a random image if no seed else with seed gives specific output.
 table_tennis:
-	syntax: <prefix> table_tennis
+	syntax: <prefix> table-tennis
 	usage: Starts a solo table tennis match.
 rally:
 	syntax: <prefix> rally (rally-name)

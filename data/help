@@ -6,7 +6,10 @@ Type `<prefix> in-dev` for in-dev commands(not recommended).
 PackedBerry Command List
 ```diff
 -- System Information Commands --
-help, version, whatsnew, credits, license
+help
+version, whatsnew
+credits
+license, tac
 
 -- Bot Settings Commands --
 call, nocall
@@ -20,17 +23,14 @@ mute, unmute
 vibe, novibe
 pausevibe, resumevibe, donevibe
 
--- Miltiple Servers Commands --
-in-dev
-invite
-server, servers
-
 -- Useless Commands --
 hi
 ping
 spam
 say
 pong
+ad
+pfp
 
 -- Utility Commands --
 sitename
@@ -40,10 +40,16 @@ translate(limited), translate_link
 captcha, verify, human
 nomenclate
 messages
+scam
+role
+welcome
+in-dev
+invite
+server, servers
 
 -- Fun Commands --
 img
-table_tennis
+table-tennis
 rally, unrally, rally-list, rally-count
 sus, amogus(dev, unstable)
 hotcold

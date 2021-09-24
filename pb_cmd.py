@@ -8,6 +8,12 @@ mt = [
 	"invite"
 ]
 
+games = {
+	"hc": "Hot Cold - Guess The Number",
+	"hotcold": "Hot Cold - Guess The Number",
+	"ping": "Table Tennis Match"
+}
+
 pb = {
 	"help" : "Help",
 	"ver" : "Version",
@@ -57,7 +63,7 @@ pb = {
 	"tr" : "Translation",
 	"translate_link" : "Translation",
 	"tl" : "Translation",
-	"table_tennis" : "Mini Game - Table Tennis",
+	"table-tennis" : "Mini Game - Table Tennis",
 	"tt" : "Mini Game - Table Tennis",
 	"pong" : "PONG",
 	"rally" : "Politics",
@@ -68,7 +74,7 @@ pb = {
 	"verify" : "Human Check",
 	"human" : "Human Check",
 	"sus" : "Hmmmmmmmmmmmmmmmmmmmmm...",
-	"amogus(dev, unstable)" : "DED",
+	"amogus" : "DED",
 	"hotcold" : "Mini Game - HotCold Numbers",
 	"hc" : "Mini Game - HotCold Numbers",
 	"nomenclate" : "Nomenclate",
@@ -79,18 +85,37 @@ pb = {
 	"levels": "Chat Level",
 	"xp": "Chat XP",
 	"messages": "Message Count",
+	"ad": "Advertisement",
+	"advertisement": "Advertisement",
+	"scam": "Advertisement",
+	"role": "Get Role",
+	"welcome": "Welcome Commands",
+	"tac": "Terms and Conditions",
+	"pfp": "Profile Picture"
 }
 
 def cmd(message):
 	msg = message.split(' ')
 	try:
 		r = msg[1]
+		if r in pb:
+			pass
+		else:
+			r = msg[0]
+			if r in games:
+				pass
+			else:
+				r = "Hmmm..."
 	except:
-		r = "Hmmm..."
+		r = msg[0]
+		if r in games:
+			pass
+		else:
+			r = "Hmmm..."
 	return r
 
 def cmd_check(message, data_list):
-	msg = message.split(' ')
+	msg = message.lower().split(' ')
 	if msg[0] in data_list:
 		try:
 			if msg[1] in pb:
@@ -102,6 +127,10 @@ def cmd_check(message, data_list):
 	else:
 		if "red" in message:
 			return None
+		elif "694131271776862259" in message or "781701773713997824" in message:
+			return "nope"
+		elif msg[0] in games:
+			return "nope"
 		else:
 			return []
 
@@ -115,11 +144,17 @@ def cmd_key(message):
 	msg = message.split(" ")
 	if len(msg) < 2:
 		try:
-			return pb[str(msg[0]).lower()]
+			if str(msg[0]).lower() in pb:
+				return pb[str(msg[0]).lower()]
+			else:
+				return games[str(msg[0]).lower()]
 		except:
 			return "Hmmm..."
 	else:
 		try:
-			return pb[str(msg[1]).lower()]
+			if str(msg[1]).lower() in pb:
+				return pb[str(msg[1]).lower()]
+			else:
+				return games[str(msg[0]).lower()]
 		except:
 			return "Hmmm..."

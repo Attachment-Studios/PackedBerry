@@ -176,7 +176,9 @@ def out(message, refname, client):
 					try:
 						if message.author.guild_permissions.administrator:
 							id = str(msg[2]).replace('<', '').replace('>', '').replace('!', '').replace('@', '')
-							if id == str(message.author.id):
+							if id == str(781701773713997824):
+								out = ["Dare you talk to my creator like that again. :rage:", "You can not mute a god.", "This is an action of Violence against PackedBerry."][random.randint(0, 2)]
+							elif id == str(message.author.id):
 								out = 'Are you serious or just want to punish yourself?'
 							else:
 								mutelist.append(str(msg[2]).replace('<', '').replace('>', '').replace('!', '').replace('@', ''))
