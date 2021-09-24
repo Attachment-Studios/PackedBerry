@@ -31,4 +31,5 @@ Welcome the PackedBerry Ads!
 - Added Ads.
 - Added Reaction Roles.
 - Added Welcome System.
+- More DM Commands.
 
