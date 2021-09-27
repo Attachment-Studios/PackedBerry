@@ -30,6 +30,9 @@ license:
 tac:
 	syntax: <prefix> tac
 	usage: Returns PackedBerry Terms and Conditions.
+latency:
+	syntax: <prefix> latency
+	usage: Gets Latency
 
 -- Bot Settings Commands --
 call:
@@ -201,5 +204,7 @@ xp:
 level:
 	syntax: <prefix> level [user]
 	usage: Gets level for [user], [user] default to message author.
-
+quote:
+	syntax: <prefix> quote [quote]
+	usage: Gets a random quote. A quote can also be set by setting [quote] to quote text.
 --------------------------------

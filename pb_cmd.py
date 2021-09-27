@@ -20,6 +20,7 @@ pb = {
 	"version" : "Version",
 	"whatsnew" : "Whatsnew",
 	"wn" : "Whatsnew",
+	"latency" : "Delays",
 	"credits" : "Credits",
 	"credit" : "Credits",
 	"license" : "ASBL V3",
@@ -91,7 +92,8 @@ pb = {
 	"role": "Get Role",
 	"welcome": "Welcome Commands",
 	"tac": "Terms and Conditions",
-	"pfp": "Profile Picture"
+	"pfp": "Profile Picture",
+	"quote": "Quote"
 }
 
 def cmd(message):
@@ -128,7 +130,7 @@ def cmd_check(message, data_list):
 		if "red" in message:
 			return None
 		elif "694131271776862259" in message or "781701773713997824" in message:
-			return "nope"
+			return "pingberry"
 		elif msg[0] in games:
 			return "nope"
 		else:

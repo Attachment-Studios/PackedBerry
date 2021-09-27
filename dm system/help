@@ -12,6 +12,7 @@ help
 version, whatsnew
 credits
 license, tac
+latency
 
 -- Utility Commands --
 server-help
@@ -24,4 +25,5 @@ spam
 img
 pong
 random-number, random-rearrangement, choose
+quote
 ```

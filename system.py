@@ -1,6 +1,5 @@
 # PackedBerry System
 
-from better_profanity import profanity
 import requests
 import random
 
@@ -35,10 +34,6 @@ def mute(uid, mute_list, guild_id, mute_server):
 		return True
 	else:
 		return False
-
-def mod(message):
-	msg = message.content.lower()
-	return len(msg) - len(profanity.censor(msg, ""))
 
 def out(message, refname, client):
 	try:
@@ -204,20 +199,6 @@ def out(message, refname, client):
 			except:
 				out = "Yes!?"
 		else:
-			"""if mod(message) > 3:
-				delete = True
-				if mod(message) > 4:
-					if mod(message) > 5:
-						if mod(message) > 6:
-							out = f"<@{message.author.id}> Control! Control! Control! You need to be peaceful!"
-						else:
-							out = f"<@{message.author.id}> Don't make others hate you!"
-					else:
-						out = f"<@{message.author.id}> Buddy! Stay cool!"
-				else:
-					out = f"<@{message.author.id}> Your language seems to be a bit rude. I would suggest you to calm down."
-			else:
-				delete = False"""
 			pass
 		return_value = [
 				not(out == ""),

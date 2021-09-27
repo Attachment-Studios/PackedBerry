@@ -63,14 +63,19 @@ def protocol(client, message, prefix_table):
 					out = f"<@{user}> has {xp} messages."
 			else:
 				out = "User has no messages under PackedBerry system."
+		elif cmd == "latency":
+			out = str(f'Ping: {float(int(float(client.latency) * 100000) / 100)} ms')
 		elif cmd == "welcome":
 			if message.author.guild_permissions.administrator:
 				if len(msg) < 3:
 					out = 'To set welcome channel type:\n`<prefix> welcome channel <channel>`\n\nFor setting welcome message type:\n`<prefix> welcome message <message>`\n\nTo give a default role on joining type:\n`<prefix> welcome role <role>`\n\nFor disabling type:\n`<prefix> welcome disable`\n\nTIP: While setting the message, `<server>` if in the message converts into server name and `<user>` into user ping.'
 				else:
 					if msg[2] == "disable":
-						os.path.remove(f'welcome/{message.guild.id}')
-						out = "Disabled Welcome Messages."
+						if os.path.isfile(f'welcome/{message.guild.id}'):
+							os.remove(f'welcome/{message.guild.id}')
+							out = "Welcome Messages have been reset."
+						else:
+							out = "No Welcome message data."
 					elif msg[2] == "channel":
 						if len(msg) < 4:
 							out = 'You need to provide a channel.'
@@ -164,6 +169,24 @@ def protocol(client, message, prefix_table):
 		elif cmd in ["ad", "advertisement"]:
 			ad = True
 			out = "Ad Delivered."
+		elif cmd == "quote":
+			del _msg[0]
+			del _msg[0]
+			qm = " ".join(_msg)
+			f = open('quotes/q', 'r')
+			d = str(f.read())
+			l = d.split('\n')
+			f.close()
+			if qm.replace(' ', '') == "":
+				if len(l) < 2:
+					out = 'No quotes available.'
+				else:
+					out = str(l[random.randint(1, len(l) - 1)]).replace('\\n', '\n')
+			else:
+				f = open('quotes/q', 'w')
+				f.write(d + '\n*' + qm.replace('**', '12341234').replace('*', '').replace('12341234', '**') + '*\\n__~' + str(message.author.name) + '__')
+				f.close()
+				out = 'Quote saved.'
 		elif cmd == "role":
 			if message.author.guild_permissions.administrator:
 				role = ''

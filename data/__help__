@@ -1,4 +1,16 @@
 ***
+latency
+```yml
+syntax: <prefix> latency
+usage: Gets Latency.
+```
+***
+quote
+```yml
+syntax: <prefix> quote [quote]
+usage: Gets a random quote. A quote can also be set by setting [quote] to quote text.
+```
+***
 pfp
 ```yml
 syntax: <prefix> pfp [user]

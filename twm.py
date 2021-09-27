@@ -54,6 +54,8 @@ def twm(client, message, prefix):
 							break
 				if out == "":
 					out = "```yml\n*unavailable```"
+		elif cmd == "latency":
+			out = str(f'Ping: {float(int(float(client.latency) * 100000) / 100)} ms')
 		elif cmd in ["in-dev", "indev"]:
 			f = open('data/next', 'r')
 			out = str(f.read())
@@ -73,6 +75,24 @@ def twm(client, message, prefix):
 				out = f"https://picsum.photos/seed/{ str(msg[2]) }/1920/1080"
 			except:
 				out = f"https://picsum.photos/seed/{ random.randint(1, 1000000) }/1920/1080"
+		elif cmd == "quote":
+			del _msg[0]
+			del _msg[0]
+			qm = " ".join(_msg)
+			f = open('quotes/q', 'r')
+			d = str(f.read())
+			l = d.split('\n')
+			f.close()
+			if qm.replace(' ', '') == "":
+				if len(l) < 2:
+					out = 'No quotes available.'
+				else:
+					out = str(l[random.randint(1, len(l) - 1)]).replace('\\n', '\n')
+			else:
+				f = open('quotes/q', 'w')
+				f.write(d + '\n*' + qm.replace('**', '12341234').replace('*', '').replace('12341234', '**') + '*\\n__~' + str(message.author.name) + '__')
+				f.close()
+				out = 'Quote saved.'
 		elif cmd == 'random-number':
 			try:
 				try:

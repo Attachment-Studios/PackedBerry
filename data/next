@@ -1,4 +1,6 @@
 `delta 03`
 ```yml
-NEW STUFF COMING SOON!
+cmd: quote
+cmd: latency
+mod: Added censorship of text.
 ```

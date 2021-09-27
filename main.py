@@ -16,6 +16,24 @@ import pb_cmd
 import threading
 import pytube
 import random
+import better_profanity
+
+def text_filter(text:str):
+	pf = better_profanity.profanity
+	words = text.split(' ')
+	filtered = pf.censor(text, '#')
+	_ = filtered.split(' ')
+
+	filtered_words = []
+	for i in range(len(_)):
+		word = _[i]
+		if _[i] == words[i]:
+			pass
+		else:
+			word = _[i][0] * len(words[i])
+		filtered_words.append('*' + word + '*')
+
+	return [pf.contains_profanity(text), ' '.join(filtered_words)]
 
 def get_title(url: str):
 	html = requests.get(url).text
@@ -42,7 +60,7 @@ def show_ad(id):
 	else:
 		return True
 
-async def reply(ad, ctx, msg):
+async def reply(stop, ad, ctx, msg):
 	message = msg
 	embed = None
 	m = None
@@ -57,7 +75,8 @@ async def reply(ad, ctx, msg):
 			image = user.avatar_url
 			embed.set_image(url=image)
 			m = await ctx.channel.send(embed = embed)
-			return m, embed
+			if stop:
+				return m, embed
 	except Exception as e:
 		print(e)
 	try:
@@ -70,7 +89,8 @@ async def reply(ad, ctx, msg):
 			image = user.avatar_url
 			embed.set_image(url=image)
 			m = await ctx.channel.send(embed = embed)
-			return m, embed
+			if stop:
+				return m, embed
 	except Exception as e:
 		print(e)
 	try:
@@ -111,7 +131,7 @@ async def reply(ad, ctx, msg):
 				)
 				m = await ctx.channel.send(embed = embed)
 				if show_ad(ctx.author.id):
-					if random.randint(0, 15) == 3:
+					if random.randint(0, 7) == 1:
 						em = discord.Embed(
 							color = 0xcbb48b,
 							title = "PackedBerry!",
@@ -124,7 +144,7 @@ async def reply(ad, ctx, msg):
 							value = 'Vote For PackedBerry On DiscordBotList.com - https://discord.ly/packedberry'
 						)
 						await ctx.channel.send(embed = em)
-					if random.randint(0, 10) == 5:
+					if random.randint(0, 7) < 3:
 						_ad = advertisement()
 						emb = discord.Embed(
 							color = 0xcbb48b,
@@ -137,7 +157,7 @@ async def reply(ad, ctx, msg):
 							value = _ad
 						)
 						await ctx.channel.send(embed = emb)
-				print(f"Replied to {ctx.author} - {pb_cmd.cmd_key(ctx.content.lower())}")
+				print(f"\033[38;2;0;255;0m\033[1m\033[3mReply\033[0m: {ctx.author}: \033[38;2;0;255;255m\033[1m\033[3m{pb_cmd.cmd_key(ctx.content.lower())}\033[0m")
 		else:
 			_ad = advertisement()
 			emb = discord.Embed(
@@ -178,7 +198,7 @@ async def level_system(msg):
 		if ls[0] >= ls[2]:
 			ls[2] *= 2
 			ls[1] += 1
-			await reply(False, msg, f"<@{ls[3]}> You got promoted to level {ls[1]}.")
+			await reply(False, False, msg, f"<@{ls[3]}> You got promoted to level {ls[1]}.")
 	ls[5] = "f"
 	th = threading.Thread(target=save_level)
 	th.start()
@@ -434,12 +454,26 @@ async def on_raw_reaction_remove(payload):
 		pass
 
 @client.event
-async def on_message(msg):
+async def on_error():
+	print('\033[38;2;255;0;0m\033[1m\033[3m(Error)\033[0m')
+
+@client.event
+async def on_message(ctx):
+	msg = ctx
+
+	try:
+		pfc = text_filter(ctx.content)
+		if pfc[0] == True:
+			await ctx.channel.send(f'{ctx.author.mention}: {pfc[1]}')
+			await ctx.delete()
+	except Exception as e:
+		print(e)
+
 	for _ in range(1):
 		if msg.author == client.user:
 			break
 		
-		print(f"Message: {msg.author} messaged.")
+		print(f"\033[38;2;255;255;0m\033[1m\033[3mMessage\033[0m: {msg.author}")
 		
 		await level_system(msg)
 		
@@ -450,7 +484,7 @@ async def on_message(msg):
 			if dms[0].replace(" ", "") == "":
 				break
 			for _ in range(int(dms[1])):
-				await reply(False, msg, dms[0])
+				await reply(False, False, msg, dms[0])
 			break
 		
 		if str(msg.guild) not in server_links[0]:
@@ -468,7 +502,7 @@ async def on_message(msg):
 			prevent[0][i] = ''
 			prevent[1][i] = ''
 			await msg.delete()
-			await reply(False, msg, '--/-- Unlocked --/--')
+			await reply(False, False, msg, '--/-- Unlocked --/--')
 			break
 		
 		if msg.content.lower() == 'pb unlock':
@@ -476,7 +510,7 @@ async def on_message(msg):
 			if str(msg.author.id) == str(prevent[1][i]):
 				prevent[0][i] = ''
 				prevent[1][i] = ''
-				await reply(False, msg, '--/-- Unlocked --/--')
+				await reply(False, False, msg, '--/-- Unlocked --/--')
 				await msg.delete()
 				break
 		
@@ -493,11 +527,13 @@ async def on_message(msg):
 			break
 		elif cch == None:
 			pass
+		elif cch == "pingberry":
+			await reply(True, False, msg, '** **')
 		elif cch == True:
 			pass
 		elif cch == False:
 			out = "If you think that is a command.\n```diff\n-> Your thought is arguable. <-\n```"
-			await reply(False, msg, str(out))
+			await reply(False, False, msg, str(out))
 			break
 	
 		try:
@@ -518,14 +554,6 @@ async def on_message(msg):
 					break
 		except:
 			pass
-
-		if "694131271776862259" in msg.content:
-			await reply(False, msg, 'EEEEEEEEEEEEEE')
-			break
-		
-		if "781701773713997824" in msg.content:
-			await reply(False, msg, 'EEEEEEEEEEEEEE')
-			break
 		
 		try:
 			if False:
@@ -583,20 +611,20 @@ async def on_message(msg):
 							except:
 								await msg.channel.purge(limit=1)
 					else:
-						await reply(False, msg, 'Admin permission needed.')
+						await reply(False, False, msg, 'Admin permission needed.')
 				if msg.content.lower().split(" ")[1] == "burn":
 					if msg.author.guild_permissions.administrator:
 						await msg.channel.purge(limit=10000)
 					else:
-						await reply(False, msg, 'Admin post required.')
+						await reply(False, False, msg, 'Admin post required.')
 				if msg.content.lower().split(" ")[1] == "prevent":
 					if msg.author.guild_permissions.administrator:
 						await msg.delete()
-						await reply(False, msg, '--X-- Locked --X--')
+						await reply(False, False, msg, '--X-- Locked --X--')
 						prevent[0].append(str(msg.channel.id))
 						prevent[1].append(str(msg.author.id))
 					else:
-						await reply(False, msg, 'Admin Post Required.')
+						await reply(False, False, msg, 'Admin Post Required.')
 		except:
 			pass
 		
@@ -632,7 +660,7 @@ async def on_message(msg):
 				send_text = str(out)
 				if len(send_text) > 0:
 					if len(send_text) < 2000:
-						await reply(False, msg, send_text)
+						await reply(False, False, msg, send_text)
 						break
 					else:
 						for lang in m_langs:
@@ -644,8 +672,8 @@ async def on_message(msg):
 						long_message_txt.write(send_text)
 						long_message.close()
 						long_message_txt.close()
-						await reply(False, msg, file=discord.File('message.md'))
-						await reply(False, msg, file=discord.File('message.txt'))
+						await reply(False, False, msg, file=discord.File('message.md'))
+						await reply(False, False, msg, file=discord.File('message.txt'))
 						break
 		except:
 			pass
@@ -653,7 +681,7 @@ async def on_message(msg):
 		try:
 			fun_system = fun.work(msg, data[0][1], server_links)
 			if fun_system[0]:
-				m, e = await reply(False, msg, fun_system[1])
+				m, e = await reply(False, False, msg, fun_system[1])
 				if fun_system[5] == True:
 					await m.add_reaction('✅')
 					await m.add_reaction('❎')
@@ -681,7 +709,7 @@ async def on_message(msg):
 				if sub1data[2] == True:
 					do_ad = True
 				if sub1data[1] == "":
-					m, e = await reply(do_ad, msg, str(sub1data[0]))
+					m, e = await reply(False, do_ad, msg, str(sub1data[0]))
 					if sub1data[3] == True:
 						await m.add_reaction('✅')
 						m_id = str(m.id)
@@ -702,11 +730,11 @@ async def on_message(msg):
 					try:
 						emsg = msg.content.lower().split(' ')
 						user = await client.fetch_user(emsg[2].replace("<@", '').replace("!", '').replace(">", ''))
-						await user.send(str(sub1data[0]))
+						await user.send(f'{msg.author.name}: {str(sub1data[0])}')
 						await msg.delete()
-						await reply(False, msg, ":white_check_mark: Message Sent Privately.")
+						await reply(False, False, msg, ":white_check_mark: Message Sent Privately.")
 					except:
-						await reply(False, msg, ":negative_squared_cross_mark: Message failed to deliver.")
+						await reply(False, False, msg, ":negative_squared_cross_mark: Message failed to deliver.")
 		except:
 			pass
 
@@ -732,7 +760,7 @@ async def on_message(msg):
 					if str(mutelist[1][i]) == str(msg.guild.id):
 						mutelist[0].remove(mutelist[0][i])
 						mutelist[1].remove(mutelist[1][i])
-				await reply(False, msg, outstuff[1])
+				await reply(False, False, msg, outstuff[1])
 				break
 			
 			# message output system
@@ -740,7 +768,7 @@ async def on_message(msg):
 				for _ in range(int(outstuff[6])):
 					send_text = str(outstuff[1])
 					if len(send_text) > 0:
-						await reply(False, msg, send_text)
+						await reply(False, False, msg, send_text)
 					else:
 						long_message = open('message.md', 'w')
 						long_message_txt = open('message.txt', 'w')
@@ -748,10 +776,10 @@ async def on_message(msg):
 						long_message_txt.write(send_text)
 						long_message.close()
 						long_message_txt.close()
-						await reply(False, msg, file=discord.File('message.md'))
-						await reply(False, msg, file=discord.File('message.txt'))
+						await reply(False, False, msg, file=discord.File('message.md'))
+						await reply(False, False, msg, file=discord.File('message.txt'))
 			except:
-				await reply(False, msg, "Error")
+				await reply(False, False, msg, "Error")
 			
 			# update reference calls list
 			data[0] = outstuff[7]
@@ -792,7 +820,7 @@ async def on_message(msg):
 
 				# check presence
 				if not(os.path.isfile('songs/' + title + '.mp4')):
-					await reply(False, msg, 'Downloading vibe from YouTube.')
+					await reply(False, False, msg, 'Downloading vibe from YouTube.')
 					try:
 						yt_video = pytube.YouTube(url)
 						video_streams = yt_video.streams.filter(progressive=True).order_by("resolution")
@@ -804,11 +832,11 @@ async def on_message(msg):
 								if file.endswith('mp4'):
 									try:
 										os.rename(file, 'songs/' + title + '.mp4')
-										await reply(False, msg, 'Song Downloaded. Starting to play in a few seconds.')
+										await reply(False, False, msg, 'Song Downloaded. Starting to play in a few seconds.')
 									except:
 										pass
 					except:
-						await reply(False, msg, 'Sorry! An error popped up.')
+						await reply(False, False, msg, 'Sorry! An error popped up.')
 				# stop current music if any
 				try:
 					voice.stop()
