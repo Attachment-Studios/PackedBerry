@@ -20,6 +20,7 @@ def protocol(client, message, prefix_table):
 	ad = False
 	reaction_role = False
 	role_val = 0
+	do_setup = False
 
 	prefix = False
 	if msg[0] in prefix_table:
@@ -63,6 +64,69 @@ def protocol(client, message, prefix_table):
 					out = f"<@{user}> has {xp} messages."
 			else:
 				out = "User has no messages under PackedBerry system."
+		elif cmd in ["update", "setup"]:
+			if message.author.guild_permissions.administrator:
+				do_setup = True
+				out = "Updating Major PackedBerry Stuff!"
+			else:
+				out = "Admin Permissions needed."
+		elif cmd == "set-spam":
+			if message.author.guild_permissions.administrator:
+				if len(msg) < 3:
+					out = 'This command is to set options for spam.\n\nTo disable spam type:\n`<prefix> set-spam off`\n\nTo enable it type:\n`<prefix> set-spam on`\n\nTo reset it, type:\n`<prefix> set-spam reset`\n\nTo set spam limits type:\n`<prefix> set-spam limit <limit>`'
+				else:
+					if msg[2] == "off":
+						f = open(f'no-spam/{message.guild.id}', 'w')
+						f.write('This server has spam disabled.')
+						f.close()
+						out = "Spam is now turned off."
+					elif msg[2] == "on":
+						if os.path.isfile(f'no-spam/{message.guild.id}'):
+							os.remove(f'no-spam/{message.guild.id}')
+							out = "Spam is now turned on."
+						else:
+							out = "Spam is already on."
+					elif msg[2] == "reset":
+						if os.path.isfile(f'no-spam/{message.guild.id}'):
+							os.remove(f'no-spam/{message.guild.id}')
+						f = open(f'set-spam/{message.guild.id}', 'w')
+						f.write('25')
+						f.close()
+						out = "Spam options reset."
+					elif msg[2] == "limit":
+						try:
+							lim = int(msg[3])
+							f = open(f'set-spam/{message.guild.id}', 'w')
+							f.write(f'{lim}')
+							f.close()
+							out = f"Limit set to {lim}. Make sure that spam is on by typing `<prefix> set-spam on` or `spam` won't work."
+						except Exception as e:
+							print(e)
+							out = "Limit should be a number."
+					else:
+						out = 'This command is to set options for spam.\n\nTo disable spam type:\n`<prefix> set-spam off`\n\nTo enable it type:\n`<prefix> set-spam on`\n\nTo reset it, type:\n`<prefix> set-spam reset`\n\nTo set spam limits type:\n`<prefix> set-spam limit <limit>`'
+			else:
+				out = "You don't have admin permissions."
+		elif cmd == "cross-server":
+			if message.author.guild_permissions.administrator:
+				if len(msg) < 3:
+					out = "Cross Server Channels are channels that send message across all servers connected with the facility.\n\nTo remove cross server channel type:\n`<prefix> cross-server off`\n\n To set a cross server channel type:\n`<prefix> cross-server <channel>`"
+				else:
+					if msg[2] == "off":
+						os.remove(f'cserver/{message.guild.id}')
+						out = 'Cross server feature has been disabled now.'
+					else:
+						channel = msg[2]
+						try:
+							c_id = int(channel.replace('<', '').replace('>', '').replace('#', ''))
+							f = open(f'cserver/{message.guild.id}', 'w')
+							f.write(str(c_id))
+							f.close()
+							out = f'Cross server channel set to <#{c_id}>.'
+						except:
+							out = 'Channel should be valid!'
+			else:
+				out = 'Admin permissions needed.'
 		elif cmd == "latency":
 			out = str(f'Ping: {float(int(float(client.latency) * 100000) / 100)} ms')
 		elif cmd == "welcome":
@@ -207,7 +271,6 @@ def protocol(client, message, prefix_table):
 			else:
 				out = "You don't have admin permissions."
 		elif cmd == "scam":
-			out = "In Dev"
 			try:
 				del _msg[0]
 				del _msg[0]
@@ -236,6 +299,7 @@ def protocol(client, message, prefix_table):
 				server = client.get_guild(int(msg[2]))
 			except:
 				server = message.guild
+			server = message.guild
 			out = f"""
 Server Details
 
@@ -263,6 +327,7 @@ Banner: {str(server.banner_url)}
 		dm_user,
 		ad,
 		reaction_role,
-		role_val
+		role_val,
+		do_setup
 	]
 	return return_table

@@ -2,6 +2,7 @@
 
 import requests
 import random
+import os
 
 def get_title(url: str):
 	html = requests.get(url).text
@@ -121,25 +122,34 @@ def out(message, refname, client):
 					connectVoice = "<"
 					out = "Stopped vibing."
 				elif msg[1] == "spam":
-					try:
+					if str(message.guild.id) in os.listdir('no-spam'):
+						out = "You can not use `spam` command in this server. To enable it type `<prefix> set-spam on`. Note by default if already wasn't set to, then spam max limit is 25. Be careful."
+					else:
 						try:
-							if int(msg[2]) <= 25:
-								spam_text = ""
+							try:
 								try:
-									spam_text = str(message.content).replace( str(message.content.split(" ")[0]) + " " + str(message.content.split(" ")[1]) + " " + str(message.content.split(" ")[2] + " "), "" )
+									sf = open(f'set-spam/{message.guild.id}', 'r')
+									spam_limit = int(sf.read())
+									sf.close()
 								except:
+									spam_limit = 25
+								if int(msg[2]) <= spam_limit:
 									spam_text = ""
-								if spam_text.replace(" ", "") == '':
-									out = "Please provide text to spam."
+									try:
+										spam_text = str(message.content).replace( str(message.content.split(" ")[0]) + " " + str(message.content.split(" ")[1]) + " " + str(message.content.split(" ")[2] + " "), "" )
+									except:
+										spam_text = ""
+									if spam_text.replace(" ", "") == '':
+										out = "Please provide text to spam."
+									else:
+										out = spam_text
+										repeat = int(msg[2])
 								else:
-									out = spam_text
-									repeat = int(msg[2])
-							else:
-								out = "Spam amount limit is 0 to 25 only."
+									out = f"Spam amount limit is 0 to {spam_limit} only."
+							except:
+								out = "Spam amount should be a number."
 						except:
-							out = "Spam amount should be a number."
-					except:
-						out = "Please specify an amount to spam."
+							out = "Please specify an amount to spam."
 				elif msg[1] == "call":
 					try:
 						if str(msg[2]) not in calls[1]:

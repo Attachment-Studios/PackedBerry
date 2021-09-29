@@ -3,4 +3,9 @@
 cmd: quote
 cmd: latency
 mod: Added censorship of text.
+csc: Added Cross Server Chat.
+cmd: cross-server
+cmd: update
+svr: With the latest updates packedberry corner appears in packedberry servers(servers with packedberry included).
+prm: Default permissions now is only admin.
 ```

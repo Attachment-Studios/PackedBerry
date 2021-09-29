@@ -3,6 +3,7 @@
 from flask import Flask
 from threading import Thread
 import logging
+import time
 
 app = Flask('')
 
@@ -41,3 +42,11 @@ def run():
 def status():
 	t = Thread(target=run)
 	t.start()
+
+def super_run():
+	def super():
+		while True:
+			status()
+			time.sleep( 60 * 60 )
+	super_thread = Thread(target=super)
+	super_thread.start()

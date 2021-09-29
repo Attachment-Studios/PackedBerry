@@ -93,7 +93,11 @@ pb = {
 	"welcome": "Welcome Commands",
 	"tac": "Terms and Conditions",
 	"pfp": "Profile Picture",
-	"quote": "Quote"
+	"quote": "Quote",
+	"cross-server": "Cross Server Messages - Global Messages",
+	"set-spam": "Spam Options",
+	"setup": "PackedBerry Configuration",
+	"update": "PackedBerry Configuration"
 }
 
 def cmd(message):

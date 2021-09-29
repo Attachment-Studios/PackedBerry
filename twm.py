@@ -15,6 +15,8 @@ def twm(client, message, prefix):
 
 	do_prefix = msg[0] in prefix
 
+	ad = False
+
 	if do_prefix:
 		if cmd in ["version", "ver"]:
 			ver_file = open("data/version", "r")
@@ -26,6 +28,8 @@ def twm(client, message, prefix):
 			wnf = open('data/whatsnew', 'r')
 			out = str(wnf.read())
 			wnf.close()
+		elif cmd == "ad":
+			ad = True
 		elif cmd == "license":
 			lf = open('legal/Licenses/ASBL.md', 'r')
 			out = '```md\n' + str(lf.read()) + '\n```'
@@ -141,6 +145,24 @@ def twm(client, message, prefix):
 					out = str(new_string)
 			except:
 				out = 'Needs something to randomly rearrange.'
+		elif cmd == "scam":
+			try:
+				del _msg[0]
+				del _msg[0]
+				data = ' '.join(_msg)
+				if len(data.replace(' ', '')) == 0:
+					out = "You need to give data."
+				else:
+					data = "\n" + data
+					sf = open('scam/scam', 'r')
+					sd = sf.read()
+					sf.close()
+					sf = open('scam/scam', 'w')
+					sf.write(str(sd) + str(data))
+					sf.close()
+					out = 'Scam Saved.'
+			except:
+				out = "You need to give data."
 		elif cmd == "spam":
 			try:
 				try:
@@ -176,6 +198,7 @@ def twm(client, message, prefix):
 	
 	return_list = [
 		out,
-		repeat
+		repeat,
+		ad
 	]
 	return return_list

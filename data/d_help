@@ -33,6 +33,9 @@ tac:
 latency:
 	syntax: <prefix> latency
 	usage: Gets Latency
+update:
+	syntax: <prefix> update
+	usage: Updates the unupdated part of PackedBerry in the server.
 
 -- Bot Settings Commands --
 call:
@@ -163,6 +166,12 @@ servers:
 pfp:
 	syntax: <prefix> pfp [user]
 	usage: Gets profile picture of [user]. [user] default to message author.
+cross-server:
+	syntax: <prefix> cross-server
+	usage: Gives information about Cross-Server chats and how to enable.
+set-spam:
+	syntax: <prefix> set-spam
+	usage: Sets options for spam.
 
 -- Fun Commands --
 img:

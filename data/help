@@ -11,6 +11,7 @@ version, whatsnew
 credits
 license, tac
 latency
+update
 
 -- Bot Settings Commands --
 call, nocall
@@ -46,7 +47,9 @@ role
 welcome
 in-dev
 invite
-server, servers
+server, servers,
+cross-server
+set-spam
 
 -- Fun Commands --
 img

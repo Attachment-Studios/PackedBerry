@@ -21,19 +21,26 @@ import better_profanity
 def text_filter(text:str):
 	pf = better_profanity.profanity
 	words = text.split(' ')
-	filtered = pf.censor(text, '#')
-	_ = filtered.split(' ')
 
-	filtered_words = []
-	for i in range(len(_)):
-		word = _[i]
-		if _[i] == words[i]:
-			pass
-		else:
-			word = _[i][0] * len(words[i])
-		filtered_words.append('*' + word + '*')
+	if pf.contains_profanity(text):	
+		filtered = pf.censor(text, '#')
+		_ = filtered.split(' ')
 
-	return [pf.contains_profanity(text), ' '.join(filtered_words)]
+		filtered_words = []
+		for i in range(len(_)):
+			word = _[i]
+			if _[i] == words[i]:
+				pass
+			else:
+				word = words[i]
+				word = '||' + str(word) + '||'
+			filtered_words.append(word)
+
+		filtered_message = '(*This message has some bad words hidden by spoilers.*)\n\n' + ' '.join(filtered_words)
+	else:
+		filtered_message = text
+	
+	return [pf.contains_profanity(text), filtered_message]
 
 def get_title(url: str):
 	html = requests.get(url).text
@@ -453,22 +460,199 @@ async def on_raw_reaction_remove(payload):
 	else:
 		pass
 
+async def packedberry_setup(guild:discord.Guild):
+	cat = await guild.create_category(name='PackedBerry Corner')
+	cnl = await guild.create_text_channel(name='PackedBerry Chat', category=cat)
+
+	try:
+		os.mkdir(f'pb-internals/{guild.id}')
+	except:
+		pass
+	f = open(f'pb-internals/{guild.id}/ac', 'w')
+	f.write(str(cnl.id))
+	f.close()
+
+	await cnl.send('Latest PackedBerry setup has been completed.')
+	await cnl.send('In case there is another "PackedBerry Corner" please delete it to avoid confusions.')
+	await cnl.send('Please note this setup is automatic and if PackedBerry is added first time to this server then this will be there. Deleting this category is manual.')
+
+	return cnl
+
 @client.event
-async def on_error():
-	print('\033[38;2;255;0;0m\033[1m\033[3m(Error)\033[0m')
+async def on_ready():
+	await logberry(f'{client.user} has restarted.')
+
+async def logberry(text:str):
+	guild = client.get_guild(885848184356737084)
+	channel = guild.get_channel(892439417669693530)
+
+	name = f'LogBerry'
+	avatar = client.user.avatar_url
+
+	whk = await channel.create_webhook(name="ModBerry",reason="Moderation")
+
+	await whk.send(content=text, username=name, avatar_url=avatar)
+	await whk.delete()
+
+@client.event
+async def on_guild_join(guild):
+	f = open(f'no-spam/{guild.id}', 'w')
+	f.write('Spam disabled in this server.')
+	f.close()
+
+	c = await packedberry_setup(guild)
+
+	sc = len(server_links[0])
+	
+	if guild.me.guild_permissions.administrator:
+		pass
+	else:
+		await c.send('Some commands might not be able to be run here. To allow them run, please give all permissions except kick and ban or just give the admin permissions.')
+	await logberry(f'{client.user} was added to another server. Server Count - {sc}')
 
 @client.event
 async def on_message(ctx):
 	msg = ctx
 
+	if (msg.channel.type == discord.ChannelType.private):
+		if msg.author == client.user:
+			return
+		dms = twm.twm(client, msg, data[0][1])
+		if dms[0].replace(" ", "") == "":
+			if dms[2] == True:
+				await reply(True, True, msg, 'Ad Delivered.')
+			else:
+				return
+		for _ in range(int(dms[1])):
+			await reply(False, False, msg, dms[0])
+		return
+
+	if msg.author.bot == True:
+		return
+
 	try:
-		pfc = text_filter(ctx.content)
-		if pfc[0] == True:
-			await ctx.channel.send(f'{ctx.author.mention}: {pfc[1]}')
-			await ctx.delete()
+		if msg.author == client.user:
+			pass
+		else:
+			if os.path.isfile(f'cserver/{msg.guild.id}'):
+				f = open(f'cserver/{msg.guild.id}', 'r')
+				d = f.read()
+				f.close()
+
+				try:
+					if str(d) == str(msg.channel.id):
+						servers = os.listdir('cserver')
+						invite_link = await msg.channel.create_invite()
+
+						global_message = msg.content
+
+						pfc = text_filter(global_message)
+						if pfc[0]:
+							global_message = pfc[1]
+
+						for sid in servers:
+							try:
+								guild = client.get_guild(int(sid))
+
+								f = open(f'cserver/{sid}', 'r')
+								cid = f.read()
+								f.close()
+
+								channel = guild.get_channel(int(cid))
+
+								temp = ''
+								if len(global_message) > 252:
+									i = 0
+									while len(temp) < 253:
+										temp += str(global_message[i])
+										i += 1
+									temp += '...'
+								
+								if len(global_message) > 252:
+									emb = discord.Embed(
+										title=temp,
+										description=f"<@{msg.author.id}>",
+										color=0x2f3136
+									)
+									emb.add_field(
+										name="Alert",
+										value='Message limit is 250 characters.'
+									)
+								else:
+									emb = discord.Embed(
+										title=str(global_message),
+										description=f"<@{msg.author.id}>",
+										color=0x2f3136
+									)
+								emb.add_field(
+									name="Author",
+									value=f"{msg.author}"
+								)
+								emb.add_field(
+									name="Server",
+									value=f"[{msg.guild}]({invite_link})"
+								)
+
+								emb.set_thumbnail(url=msg.author.avatar_url)
+
+								await channel.send(embed=emb)
+							except Exception as e:
+								print(e)
+						await msg.delete()
+						print(f"\033[38;2;255;255;0m\033[1m\033[3mGlobal\033[0m: {msg.author}")
+						return
+				except Exception as e:
+					print(e)
 	except Exception as e:
 		print(e)
 
+	try:
+		if msg.author.bot == True:
+			return
+		else:
+			m = msg.content
+			pfc = text_filter(m)
+			if pfc[0] == True:
+				try:
+					name = f'{msg.author}'
+					avatar = msg.author.avatar_url
+
+					whk = await msg.channel.create_webhook(name="ModBerry",reason="Moderation")
+
+					await whk.send(content=f'{pfc[1]}', username=name, avatar_url=avatar)
+					await whk.delete()
+				except Exception as e:
+					print(e)
+					await ctx.channel.send(f'{pfc[1]}\n__***~{msg.author.mention}***__')
+				await ctx.delete()
+	except Exception as e:
+		print(e)
+	
+	if msg.guild.me.guild_permissions.administrator:
+		if os.path.isfile(f'pb-internals/{msg.guild.id}/ac'):
+			pass
+		else:
+			await packedberry_setup(msg.guild)
+	else:
+		try:
+			if os.path.isfile(f'pb-internals/{msg.guild.id}/ac'):
+				f = open(f'pb-internals/{msg.guild.id}/ac', 'r')
+				try:
+					cid = int(f.read())
+					c = msg.guild.get_channel(cid)
+					if msg.content.lower().split(' ')[0] in data[0][1]:
+						await c.send('Some commands might not be able to be run here. To allow them run, please give all permissions except kick and ban or just give the admin permissions.')
+					else:
+						pass
+				except:
+					pass
+				f.close()
+			else:
+				c = await packedberry_setup(msg.guild)
+				await c.send('Some commands might not be able to be run here. To allow them run, please give all permissions except kick and ban or just give the admin permissions.')
+		except:
+			pass
+	
 	for _ in range(1):
 		if msg.author == client.user:
 			break
@@ -476,16 +660,6 @@ async def on_message(ctx):
 		print(f"\033[38;2;255;255;0m\033[1m\033[3mMessage\033[0m: {msg.author}")
 		
 		await level_system(msg)
-		
-		if (msg.channel.type == discord.ChannelType.private):
-			if msg.author == client.user:
-				break
-			dms = twm.twm(client, msg, data[0][1])
-			if dms[0].replace(" ", "") == "":
-				break
-			for _ in range(int(dms[1])):
-				await reply(False, False, msg, dms[0])
-			break
 		
 		if str(msg.guild) not in server_links[0]:
 			try:
@@ -706,6 +880,8 @@ async def on_message(ctx):
 				pass
 			else:
 				do_ad = False
+				if sub1data[5] == True:
+					await packedberry_setup(msg.guild)
 				if sub1data[2] == True:
 					do_ad = True
 				if sub1data[1] == "":
@@ -765,19 +941,34 @@ async def on_message(ctx):
 			
 			# message output system
 			try:
-				for _ in range(int(outstuff[6])):
-					send_text = str(outstuff[1])
-					if len(send_text) > 0:
-						await reply(False, False, msg, send_text)
-					else:
-						long_message = open('message.md', 'w')
-						long_message_txt = open('message.txt', 'w')
-						long_message.write(send_text)
-						long_message_txt.write(send_text)
-						long_message.close()
-						long_message_txt.close()
-						await reply(False, False, msg, file=discord.File('message.md'))
-						await reply(False, False, msg, file=discord.File('message.txt'))
+				if str(msg.guild.id) in os.listdir('no-spam'):
+					for _ in range(1):
+						send_text = str(outstuff[1])
+						if len(send_text) > 0:
+							await reply(False, False, msg, send_text)
+						else:
+							long_message = open('message.md', 'w')
+							long_message_txt = open('message.txt', 'w')
+							long_message.write(send_text)
+							long_message_txt.write(send_text)
+							long_message.close()
+							long_message_txt.close()
+							await reply(False, False, msg, file=discord.File('message.md'))
+							await reply(False, False, msg, file=discord.File('message.txt'))
+				else:
+					for _ in range(int(outstuff[6])):
+						send_text = str(outstuff[1])
+						if len(send_text) > 0:
+							await reply(False, False, msg, send_text)
+						else:
+							long_message = open('message.md', 'w')
+							long_message_txt = open('message.txt', 'w')
+							long_message.write(send_text)
+							long_message_txt.write(send_text)
+							long_message.close()
+							long_message_txt.close()
+							await reply(False, False, msg, file=discord.File('message.md'))
+							await reply(False, False, msg, file=discord.File('message.txt'))
 			except:
 				await reply(False, False, msg, "Error")
 			
@@ -890,5 +1081,5 @@ async def on_message(ctx):
 	thread.start()
 	thread.join()
 
-server.status()
+server.super_run()
 client.run(os.getenv("TOKEN"))

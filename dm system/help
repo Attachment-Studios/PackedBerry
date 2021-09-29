@@ -14,16 +14,20 @@ credits
 license, tac
 latency
 
--- Utility Commands --
-server-help
-in-dev
-
--- Fun Commands --
+-- Useless Commands --
 hi
 ping
 spam
-img
 pong
+ad
+
+-- Utility Commands --
+server-help
+in-dev
+scam
+
+-- Fun Commands --
+img
 random-number, random-rearrangement, choose
 quote
 ```

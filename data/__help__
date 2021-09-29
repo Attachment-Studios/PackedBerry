@@ -1,4 +1,34 @@
 ***
+scam
+```yml
+syntax: <prefix> scam (data)
+usage: Adds (data) to ads list.
+```
+***
+ad
+```yml
+syntax: <prefix> ad
+usage: Shows an ad.
+```
+***
+update
+```yml
+syntax: <prefix> update
+usage: Updates the unupdated part of PackedBerry in the server.
+```
+***
+set-spam
+```yml
+syntax: <prefix> set-spam
+usage: Sets options for spam.
+```
+***
+cross-server
+```yml
+syntax: <prefix> cross-server
+usage: Gives information about Cross-Server chats and how to enable.
+```
+***
 latency
 ```yml
 syntax: <prefix> latency
