@@ -21,6 +21,8 @@ def protocol(client, message, prefix_table):
 	reaction_role = False
 	role_val = 0
 	do_setup = False
+	announce_cs = False
+	sfr = False
 
 	prefix = False
 	if msg[0] in prefix_table:
@@ -113,8 +115,13 @@ def protocol(client, message, prefix_table):
 					out = "Cross Server Channels are channels that send message across all servers connected with the facility.\n\nTo remove cross server channel type:\n`<prefix> cross-server off`\n\n To set a cross server channel type:\n`<prefix> cross-server <channel>`"
 				else:
 					if msg[2] == "off":
-						os.remove(f'cserver/{message.guild.id}')
-						out = 'Cross server feature has been disabled now.'
+						try:
+							if os.path.isfile(f'cserver/{message.guild.id}'):
+								announce_cs = f'**{message.guild}** disconnected from Cross-Server chat.'
+							os.remove(f'cserver/{message.guild.id}')
+							out = 'Cross server feature has been disabled now.'
+						except:
+							out = 'Cross server feature was already disabled.'
 					else:
 						channel = msg[2]
 						try:
@@ -123,6 +130,7 @@ def protocol(client, message, prefix_table):
 							f.write(str(c_id))
 							f.close()
 							out = f'Cross server channel set to <#{c_id}>.'
+							announce_cs = f'**{message.guild}** is now connected to Cross-Server chat.'
 						except:
 							out = 'Channel should be valid!'
 			else:
@@ -328,6 +336,8 @@ Banner: {str(server.banner_url)}
 		ad,
 		reaction_role,
 		role_val,
-		do_setup
+		do_setup,
+		announce_cs,
+		sfr
 	]
 	return return_table

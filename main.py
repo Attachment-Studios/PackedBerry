@@ -17,6 +17,24 @@ import threading
 import pytube
 import random
 import better_profanity
+import sys
+import youtubesearchpython
+
+def search_video(query:str):
+	videosSearch = youtubesearchpython.VideosSearch(str(query), limit = 1)
+	return videosSearch.result()
+
+def get_video_data(query:dict):
+	r = {}
+	d = search_video(query)
+	for _ in d:
+		l = d[_]
+		for e in l:
+			f = e
+			for i in f:
+				if i in ['link', 'title', 'duration', 'viewCoutn']:
+					r.update({i : f[i]})
+	return r
 
 def text_filter(text:str):
 	pf = better_profanity.profanity
@@ -495,6 +513,17 @@ async def logberry(text:str):
 	await whk.delete()
 
 @client.event
+async def on_relationship_add(relationship):
+	user = relationship.user
+	await user.send('We are friends! :D')
+
+@client.event
+async def on_relationship_remove(relationship):
+	user = relationship.user
+	await user.send("Please don't unfriend me! :(")
+	await user.send_friend_request()
+
+@client.event
 async def on_guild_join(guild):
 	f = open(f'no-spam/{guild.id}', 'w')
 	f.write('Spam disabled in this server.')
@@ -509,6 +538,152 @@ async def on_guild_join(guild):
 	else:
 		await c.send('Some commands might not be able to be run here. To allow them run, please give all permissions except kick and ban or just give the admin permissions.')
 	await logberry(f'{client.user} was added to another server. Server Count - {sc}')
+
+def get_ping(text):
+	if '<@!' in text:
+		l = text.split(' ')
+		_l = []
+		d = {}
+		for _ in l:
+			try:
+				id = int(_.replace('<@!', '').replace('>', ''))
+				if '<@!' in str(_) and str(_) not in _l:
+					_l.append(str(_))
+					d.update(
+						{
+							_ : client.get_user(int(id)).name
+						}
+					)
+			except:
+				pass
+		return _l, d
+	else:
+		return False, False
+
+async def global_chat(msg, text):
+	try:
+		if msg.author == client.user:
+			pass
+		else:
+			if os.path.isfile(f'cserver/{msg.guild.id}'):
+				f = open(f'cserver/{msg.guild.id}', 'r')
+				d = f.read()
+				f.close()
+				
+				try:
+					if str(d) == str(msg.channel.id) or not(text == ''):
+						await msg.delete()
+
+						servers = os.listdir('cserver')
+						invite_link = await msg.channel.create_invite()
+
+						if text == '':
+							global_message = msg.content
+						else:
+							global_message = text
+						
+						m_att = msg.attachments
+						for f in os.listdir('csa'):
+							os.remove(f'csa/{f}')
+						files = []
+						for f in m_att:
+							fn = f'csa/{f.filename}'
+							await f.save(fn)
+							files.append(fn)
+						
+						ping_list, ping_dict = get_ping(global_message)
+
+						ping_text = ''
+						if not(ping_list == False):
+							ping_text = ', '.join(ping_list)
+						
+						if ping_text == '':
+							pass
+						else:
+							for k in ping_dict:
+								global_message = global_message.replace(k, ping_dict[k])
+
+						pfc = text_filter(global_message)
+						if pfc[0]:
+							global_message = pfc[1]
+												
+						for sid in servers:
+							try:
+								guild = client.get_guild(int(sid))
+
+								f = open(f'cserver/{sid}', 'r')
+								cid = f.read()
+								f.close()
+
+								if guild == None:
+									pass
+								else:
+									channel = guild.get_channel(int(cid))
+
+									if channel == None:
+										pass
+									else:
+										temp = ''
+										if len(global_message) > 252:
+											i = 0
+											while len(temp) < 253:
+												temp += str(global_message[i])
+												i += 1
+											temp += '...'
+										
+										if len(global_message) > 252:
+											emb = discord.Embed(
+												title=temp,
+												description=f"Get [PackedBerry](https://PackedBerry.DBot.CC) in your server and type `pb cross-server` to access cross-server chat in your server as well.",
+												color=0x2f3136
+											)
+											emb.add_field(
+												name="Alert",
+												inline=False,
+												value='Message limit is 250 characters.'
+											)
+										else:
+											emb = discord.Embed(
+												title=str(global_message),
+												description=f"Get [PackedBerry](https://PackedBerry.DBot.CC) in your server and type `pb cross-server` to access cross-server chat in your server as well.",
+												color=0x2f3136
+											)
+										if text == '':
+											pass
+											emb.add_field(
+												name="Message Details",
+												value=f"""Author: @{msg.author}\nPing Code: \\<@!{msg.author.id}>\nFrom: [{msg.guild}/#{msg.channel}]({invite_link})"""
+											)
+										if text == '':
+											emb.set_thumbnail(url=msg.author.avatar_url)
+										else:
+											emb.set_thumbnail(url=msg.guild.icon_url)
+
+										if ping_text == "":
+											pass
+										else:
+											await channel.send(ping_text)
+
+										await channel.send(embed=emb)
+										for f in files:
+											file = discord.File(f)
+											await channel.send(file=file)
+							except Exception as e:
+								exc_type, exc_obj, exc_tb = sys.exc_info()
+								fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+								print(exc_type, fname, exc_tb.tb_lineno)
+								print(e)
+						print(f"\033[38;2;255;255;0m\033[1m\033[3mGlobal\033[0m: {msg.author}")
+						return
+					else:
+						return "CONTINUE"
+				except Exception as e:
+					print(e)
+					return "CONTINUE"
+	except Exception as e:
+		print(e)
+		return "CONTINUE"
+	return "CONTINUE"
 
 @client.event
 async def on_message(ctx):
@@ -528,87 +703,21 @@ async def on_message(ctx):
 		return
 
 	if msg.author.bot == True:
+		if msg.author.id == 888277005261492225:
+			pass
+		else:
+			return
+	
+	value = await global_chat(msg, '')
+	if value == None:
 		return
 
 	try:
-		if msg.author == client.user:
-			pass
-		else:
-			if os.path.isfile(f'cserver/{msg.guild.id}'):
-				f = open(f'cserver/{msg.guild.id}', 'r')
-				d = f.read()
-				f.close()
-
-				try:
-					if str(d) == str(msg.channel.id):
-						servers = os.listdir('cserver')
-						invite_link = await msg.channel.create_invite()
-
-						global_message = msg.content
-
-						pfc = text_filter(global_message)
-						if pfc[0]:
-							global_message = pfc[1]
-
-						for sid in servers:
-							try:
-								guild = client.get_guild(int(sid))
-
-								f = open(f'cserver/{sid}', 'r')
-								cid = f.read()
-								f.close()
-
-								channel = guild.get_channel(int(cid))
-
-								temp = ''
-								if len(global_message) > 252:
-									i = 0
-									while len(temp) < 253:
-										temp += str(global_message[i])
-										i += 1
-									temp += '...'
-								
-								if len(global_message) > 252:
-									emb = discord.Embed(
-										title=temp,
-										description=f"<@{msg.author.id}>",
-										color=0x2f3136
-									)
-									emb.add_field(
-										name="Alert",
-										value='Message limit is 250 characters.'
-									)
-								else:
-									emb = discord.Embed(
-										title=str(global_message),
-										description=f"<@{msg.author.id}>",
-										color=0x2f3136
-									)
-								emb.add_field(
-									name="Author",
-									value=f"{msg.author}"
-								)
-								emb.add_field(
-									name="Server",
-									value=f"[{msg.guild}]({invite_link})"
-								)
-
-								emb.set_thumbnail(url=msg.author.avatar_url)
-
-								await channel.send(embed=emb)
-							except Exception as e:
-								print(e)
-						await msg.delete()
-						print(f"\033[38;2;255;255;0m\033[1m\033[3mGlobal\033[0m: {msg.author}")
-						return
-				except Exception as e:
-					print(e)
-	except Exception as e:
-		print(e)
-
-	try:
 		if msg.author.bot == True:
-			return
+			if msg.author.id == 888277005261492225:
+				pass
+			else:
+				return
 		else:
 			m = msg.content
 			pfc = text_filter(m)
@@ -880,6 +989,13 @@ async def on_message(ctx):
 				pass
 			else:
 				do_ad = False
+				if sub1data[7] == True:
+					try:
+						await msg.author.send_friend_request()
+					except Exception as e:
+						print(e)
+				if not(sub1data[6] == False):
+					await global_chat(msg, sub1data[6])
 				if sub1data[5] == True:
 					await packedberry_setup(msg.guild)
 				if sub1data[2] == True:
@@ -1001,13 +1117,7 @@ async def on_message(ctx):
 							_title += " "
 					title = _title
 				except:
-					if voiceChannel.id == 885849090334793799:
-						title = "rickroll"
-					else:
-						if msg.author.id == 781701773713997824:
-							title = "rickroll"
-						else:
-							title = "song"
+					title = "Rick Astley - Gonna Give You Up - YouTube"
 
 				# check presence
 				if not(os.path.isfile('songs/' + title + '.mp4')):
