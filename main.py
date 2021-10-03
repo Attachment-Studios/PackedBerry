@@ -1091,16 +1091,15 @@ async def on_message(ctx):
 			# update reference calls list
 			data[0] = outstuff[7]
 			
-			# play music
-			if outstuff[3] == True:
+			if outstuff[3] == '<#>':
 				voiceChannel = discord.utils.get(msg.guild.voice_channels, name=outstuff[4])
-				
-				# connect to voice channel
 				try:
 					await voiceChannel.connect()
 				except:
 					print("Maybe connected already")
-				
+
+			# play music
+			if outstuff[3] == True:
 				voice = discord.utils.get(client.voice_clients, guild=msg.guild)
 
 				# get url
@@ -1117,7 +1116,10 @@ async def on_message(ctx):
 							_title += " "
 					title = _title
 				except:
-					title = "Rick Astley - Gonna Give You Up - YouTube"
+					if msg.content.lower().split(' ')[1] == 'vibe-url':
+						title = "Rick Astley - Gonna Give You Up - YouTube"
+					else:
+						pass
 
 				# check presence
 				if not(os.path.isfile('songs/' + title + '.mp4')):
@@ -1136,7 +1138,8 @@ async def on_message(ctx):
 										await reply(False, False, msg, 'Song Downloaded. Starting to play in a few seconds.')
 									except:
 										pass
-					except:
+					except Exception as e:
+						print(e)
 						await reply(False, False, msg, 'Sorry! An error popped up.')
 				# stop current music if any
 				try:
@@ -1154,7 +1157,7 @@ async def on_message(ctx):
 					pass
 			
 			# stop and disconnect from voice channel
-			if outstuff[3] == "-" or outstuff[3] == "<":
+			if outstuff[3] == "-":
 				server = msg.guild.voice_client
 				if not server == None:
 					try:
@@ -1167,6 +1170,14 @@ async def on_message(ctx):
 						pass
 					try:
 						await msg.guild.me.edit(nick="PackedBerry")
+					except:
+						pass
+			
+			if outstuff[3] == "<":
+				server = msg.guild.voice_client
+				if not server == None:
+					try:
+						await server.stop()
 					except:
 						pass
 			

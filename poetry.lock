@@ -937,8 +937,19 @@ optional = false
 python-versions = "*"
 version = "2021.6.6"
 
+[[package]]
+category = "main"
+description = "Search for YouTube videos, channels & playlists & get video information using link WITHOUT YouTube Data API v3"
+name = "youtube-search-python"
+optional = false
+python-versions = ">=3.6"
+version = "1.4.9"
+
+[package.dependencies]
+httpx = "*"
+
 [metadata]
-content-hash = "0970c206e68e4395c5d2a06788074384d091a44b23fdab5e0ec755ab5dbd38e0"
+content-hash = "d0a8e68c00efdca5c83341f4ccd9a497676b7765f9d7b055e423c0f41fd47e7a"
 lock-version = "1.1"
 python-versions = "^3.8"
 
@@ -1733,4 +1744,8 @@ yarl = [
 youtube-dl = [
     {file = "youtube_dl-2021.6.6-py2.py3-none-any.whl", hash = "sha256:263e04d53fb8ba3dfbd246ad09b7d388e896c132a20cc770c26ee7684de050ac"},
     {file = "youtube_dl-2021.6.6.tar.gz", hash = "sha256:cb2d3ee002158ede783e97a82c95f3817594df54367ea6a77ce5ceea4772f0ab"},
+]
+youtube-search-python = [
+    {file = "youtube-search-python-1.4.9.tar.gz", hash = "sha256:9c75540d41f6dcfd19f2f70fbe8346406e026a016aae56b87c207a0b4ff571e0"},
+    {file = "youtube_search_python-1.4.9-py3-none-any.whl", hash = "sha256:3aca4b29c5136b12c2657a6e3e10d55f8f84ff78dc30214bd7ba27b3c5f32e47"},
 ]

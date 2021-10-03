@@ -67,8 +67,14 @@ unmute:
 
 -- Vibes/Music Commands --
 vibe:
-	syntax: <prefix> vibe (url) (voice channel)
-	usage: Plays music from YouTube with url as (url) in the (voice channel).
+	syntax: pb vibe (channel-name)
+	usage: Connects to voice channel (channel-name).
+vibe-url:
+	syntax: <prefix> vibe-url (url)
+	usage: Gets youtube video by (url) and plays it.
+vibe-name:
+	syntax: <prefix> vibe-name (search)
+	usage: Searches for (search) and plays music found.
 novibe:
 	syntax: <prefix> novibe
 	usage: Stops playing music and disconnets from voice channel.

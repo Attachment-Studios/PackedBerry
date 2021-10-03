@@ -3,6 +3,23 @@
 import requests
 import random
 import os
+import youtubesearchpython
+
+def search_video(query:str):
+	videosSearch = youtubesearchpython.VideosSearch(str(query), limit = 1)
+	return videosSearch.result()
+
+def get_video_data(query:dict):
+	r = {}
+	d = search_video(query)
+	for _ in d:
+		l = d[_]
+		for e in l:
+			f = e
+			for i in f:
+				if i in ['link', 'title', 'duration', 'viewCoutn']:
+					r.update({i : f[i]})
+	return r
 
 def get_title(url: str):
 	html = requests.get(url).text
@@ -91,7 +108,21 @@ def out(message, refname, client):
 						out = title
 					except:
 						out = "Please provide URL."
-				elif msg[1] == "vibe":
+				elif msg[1] in ["connect", "join", "vibe"]:
+					try:
+						_msg = message.content.split(' ')
+						del _msg[0]
+						del _msg[0]
+						c = " ".join(_msg)
+						if c.replace(' ', '') == "":
+							out = "Please enter a valid channel name."
+						else:
+							voiceChannel = str(c)
+							out = f"Connected to {c}."
+							connectVoice = "<#>"
+					except Exception as e:
+						print(e)
+				elif msg[1] == "vibe-url":
 					try:
 						try:
 							try:
@@ -101,8 +132,31 @@ def out(message, refname, client):
 									title = get_title(song_url)
 								except:
 									title = "???"
-								out = "Now vibing on " + title + "(<" + song_url + ">) on voice channel " + voiceChannel + "!!!"
+								out = "Now vibing on " + title + "(<" + song_url + ">)!!!"
 								connectVoice = True
+							except:
+								out = "Error."
+						except:
+							out = "Please provide a voice channel to vibe in!"
+					except:
+						out = "Please provide an url to vibe on!"
+				elif msg[1] == "vibe-name":
+					try:
+						try:
+							try:
+								del msg[0]
+								del msg[0]
+								search_text = " ".join(msg)
+								if search_text.replace(' ', '') == '':
+									out = 'Search Text can not be empty.'
+								else:
+									song_url = str(get_video_data(search_text)['link'])
+									try:
+										title = get_title(song_url)
+									except:
+										title = "???"
+									out = "Now vibing on " + title + "(<" + song_url + ">)!!!"
+									connectVoice = True
 							except:
 								out = "Error."
 						except:

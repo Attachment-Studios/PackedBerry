@@ -1,4 +1,16 @@
 ***
+vibe
+```yml
+syntax: pb connect (channel-name)
+usage: Connects to voice channel (channel-name).
+```
+***
+vibe-name
+```yml
+syntax: <prefix> vibe-name (search)
+usage: Searches for (search) and plays music found.
+```
+***
 scam
 ```yml
 syntax: <prefix> scam (data)
@@ -173,10 +185,10 @@ syntax: <prefix> unmute (user)
 usage: Unmutes the user and so he can talk.
 ```
 ***
-vibe
+vibe-url
 ```yml
-syntax: <prefix> vibe (url) (voice channel)
-usage: Plays music from YouTube with url as (url) in the (voice channel).
+syntax: <prefix> vibe-url (url)
+usage: Gets youtube video by (url) and plays it.
 ```
 ***
 novibe
