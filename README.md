@@ -1,5 +1,5 @@
 # PackedBerry!
-
+![PackedBerry](https://github.com/Attachment-Studios/PackedBerry/blob/master/Social.png?raw=true)
 *`PackedBerry` is more than a simple discord bot.*
 
 ## Details
